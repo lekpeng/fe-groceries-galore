@@ -1,0 +1,6 @@
+.MuiSwitch-switchBase.MuiSwitch-colorPrimary {
+  color: coral;
+}
+.MuiSwitch-root > .MuiSwitch-track {
+  background-color: lightcoral;
+}
