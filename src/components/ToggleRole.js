@@ -4,14 +4,16 @@ import Typography from "@mui/material/Typography";
 import { useRef } from "react";
 import "./ToggleRole.css";
 
-function ToggleRole() {
+function ToggleRole({ setUserType }) {
   const labelElm = useRef();
   const switchElm = useRef();
   const handleChange = (e) => {
     if (e.target.checked) {
       labelElm.current.innerText = "Customer";
+      setUserType("customer");
     } else {
       labelElm.current.innerText = "Merchant";
+      setUserType("merchant");
     }
   };
 
