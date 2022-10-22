@@ -24,18 +24,23 @@ function Register() {
     name: "",
     email: "",
     password: "",
-    confirm_password: "",
+    confirmPassword: "",
     address: "",
-    phone_number: "",
+    phoneNumber: "",
   });
 
   const handleClick = (e) => {
     setIsPasswordVisible((prevVisibilityState) => !prevVisibilityState);
   };
+
   const handleChange = (e) => {
-    if (e.target.name === "confirm_password" || e.target.name === "password") {
-      if (passwordInputRef.current.value !== confirmPasswordInputRef.current.value) {
-        confirmPasswordInputRef.current.setCustomValidity("Passwords must match.");
+    if (e.target.name === "confirmPassword" || e.target.name === "password") {
+      if (
+        passwordInputRef.current.value !== confirmPasswordInputRef.current.value
+      ) {
+        confirmPasswordInputRef.current.setCustomValidity(
+          "Passwords must match."
+        );
       } else {
         confirmPasswordInputRef.current.setCustomValidity("");
       }
@@ -45,11 +50,13 @@ function Register() {
       [e.target.name]: e.target.value,
     });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await userApis.auth(formData, "register", userType);
+      console.log("RESPONSE", response);
       if (response.data.error) {
         toast.error(response.error);
         return;
@@ -80,7 +87,12 @@ function Register() {
       <ToggleRole setUserType={setUserType} />
       <form onSubmit={handleSubmit}>
         <FormControl sx={{ mt: 10 }}>
-          <TextField required name="name" label="Name" onChange={handleChange} />
+          <TextField
+            required
+            name="name"
+            label="Name"
+            onChange={handleChange}
+          />
           <TextField
             required
             name="email"
@@ -108,7 +120,7 @@ function Register() {
           />
           <TextField
             required
-            name="confirm_password"
+            name="confirmPassword"
             inputRef={confirmPasswordInputRef}
             className="register__confirmPassword"
             type={isPasswordVisible ? "input" : "password"}
@@ -133,7 +145,7 @@ function Register() {
           />
           <TextField
             required
-            name="phone_number"
+            name="phoneNumber"
             sx={{ mt: 3 }}
             label="Phone Number"
             onChange={handleChange}
@@ -142,7 +154,12 @@ function Register() {
           <FormHelperText id="my-helper-text">
             We'll never share your personal details.
           </FormHelperText>
-          <Button type="submit" sx={{ mt: 3 }} variant="contained" color="success">
+          <Button
+            type="submit"
+            sx={{ mt: 3 }}
+            variant="contained"
+            color="success"
+          >
             Register
           </Button>
         </FormControl>
