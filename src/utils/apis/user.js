@@ -1,10 +1,11 @@
 import axios from "axios";
 
-const apis = {
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
+
+const userApis = {
   auth: async (formData, authType, userType) => {
-    console.log("backend URL", process.env.REACT_APP_BACKEND_URL);
     const response = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/api/v1/users/${authType}`,
+      `${baseUrl}/api/v1/users/${authType}`,
       { formData, userType },
       {
         headers: {
@@ -15,6 +16,19 @@ const apis = {
 
     return response;
   },
+
+  confirm: async (emailToken) => {
+    const response = await axios.patch(
+      `${baseUrl}/api/v1/users/confirm`,
+      { emailToken },
+      {
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+    );
+    return response;
+  },
 };
 
-export default apis;
+export default userApis;

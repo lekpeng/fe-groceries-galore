@@ -10,16 +10,25 @@ function ToggleRole({ setUserType }) {
   const handleChange = (e) => {
     if (e.target.checked) {
       labelElm.current.innerText = "Customer";
-      setUserType("customer");
     } else {
       labelElm.current.innerText = "Merchant";
-      setUserType("merchant");
     }
+    setUserType(labelElm.current.innerText);
   };
 
   return (
-    <Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
-      <Switch className="toggleRole" ref={switchElm} onChange={handleChange} defaultChecked />
+    <Stack
+      direction="row"
+      spacing={1}
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Switch
+        className="toggleRole"
+        ref={switchElm}
+        onChange={handleChange}
+        defaultChecked
+      />
       <Typography ref={labelElm}>Customer</Typography>
     </Stack>
   );

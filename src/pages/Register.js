@@ -1,25 +1,22 @@
+import { useRef, useState } from "react";
 import toast from "react-hot-toast";
+import EyeAdornment from "../components/EyeAdornment";
+import ToggleRole from "../components/ToggleRole";
+import userApis from "../utils/apis/user";
 import {
   Container,
   FormControl,
   FormHelperText,
   TextField,
   Button,
-  InputAdornment,
 } from "@mui/material";
-
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import ToggleRole from "../components/ToggleRole";
-import { useRef, useState } from "react";
-import userApis from "../utils/apis/user";
 
 function Register() {
   const passwordInputRef = useRef();
   const confirmPasswordInputRef = useRef();
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [userType, setUserType] = useState("customer");
+  const [userType, setUserType] = useState("Customer");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -54,32 +51,15 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await userApis.auth(formData, "register", userType);
-      console.log("RESPONSE", response);
-      if (response.data.error) {
-        toast.error(response.error);
-        return;
-      }
-      toast.success(
-        "Registration Successful! Check your mailbox for a verification email from us 😄"
-      );
-      // TO DO: navigate to login
-    } catch (err) {
-      toast.error(err.response.data.error);
+    const response = await userApis.auth(formData, "register", userType);
+    if (response.data.error) {
+      toast.error(response.error);
       return;
     }
+    toast.success(
+      "Registration Successful! Check your mailbox for a verification email from us 😄"
+    );
   };
-
-  const eyeAdornment = isPasswordVisible ? (
-    <InputAdornment position="end">
-      <VisibilityIcon fontSize="default" onClick={handleClick} />
-    </InputAdornment>
-  ) : (
-    <InputAdornment position="end">
-      <VisibilityOffIcon fontSize="default" onClick={handleClick} />
-    </InputAdornment>
-  );
 
   return (
     <Container>
@@ -111,7 +91,12 @@ function Register() {
             label="Password"
             onChange={handleChange}
             InputProps={{
-              endAdornment: eyeAdornment,
+              endAdornment: (
+                <EyeAdornment
+                  isPasswordVisible={isPasswordVisible}
+                  handleClick={handleClick}
+                />
+              ),
             }}
             inputProps={{
               minLength: 8,
@@ -128,7 +113,12 @@ function Register() {
             label="Password again"
             onChange={handleChange}
             InputProps={{
-              endAdornment: eyeAdornment,
+              endAdornment: (
+                <EyeAdornment
+                  isPasswordVisible={isPasswordVisible}
+                  handleClick={handleClick}
+                />
+              ),
             }}
             inputProps={{
               minLength: 8,
