@@ -1,15 +1,46 @@
 import EyeAdornment from "../components/EyeAdornment";
 import ToggleRole from "../components/ToggleRole";
-import { Button, Container, FormControl, TextField } from "@mui/material";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthProvider";
+import { Button, Container, FormControl, FormHelperText, TextField } from "@mui/material";
+import userApis from "../utils/apis/user";
+import toast from "react-hot-toast";
 
 function Login() {
+  const { auth, setAuth } = useContext(AuthContext);
   const [userType, setUserType] = useState("Customer");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const handleChange = () => {};
-  const handleSubmit = () => {};
+  const navigate = useNavigate();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await userApis.auth(formData, userType, "login");
+
+      const accessToken = response.data.accessToken;
+
+      setAuth({ email: formData.email, userType, accessToken });
+      navigate("/home");
+
+      toast.success("Welcome back 😄");
+    } catch (err) {
+      toast.error("Error: " + err.response?.data?.error);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
   return (
     <Container>
       <h1>Login</h1>
@@ -41,14 +72,12 @@ function Login() {
             }}
           />
 
-          <Button
-            type="submit"
-            sx={{ mt: 3 }}
-            variant="contained"
-            color="success"
-          >
-            Register
+          <Button type="submit" sx={{ mt: 3 }} variant="contained" color="success">
+            Login
           </Button>
+          <FormHelperText sx={{ mt: 3 }}>
+            Need an account? <Link to="/register">Sign up</Link>
+          </FormHelperText>
         </FormControl>
       </form>
     </Container>

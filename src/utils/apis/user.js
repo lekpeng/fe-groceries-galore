@@ -3,14 +3,13 @@ import axios from "axios";
 const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
 const userApis = {
-  auth: async (formData, authType, userType) => {
+  auth: async (formData, userType, authType) => {
     const response = await axios.post(
       `${baseUrl}/api/v1/users/${authType}`,
       { formData, userType },
       {
-        headers: {
-          "Content-type": "application/json",
-        },
+        headers: { "Content-type": "application/json" },
+        withCredentials: true,
       }
     );
 

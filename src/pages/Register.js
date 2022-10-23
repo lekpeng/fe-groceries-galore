@@ -3,13 +3,8 @@ import toast from "react-hot-toast";
 import EyeAdornment from "../components/EyeAdornment";
 import ToggleRole from "../components/ToggleRole";
 import userApis from "../utils/apis/user";
-import {
-  Container,
-  FormControl,
-  FormHelperText,
-  TextField,
-  Button,
-} from "@mui/material";
+import { Container, FormControl, FormHelperText, TextField, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function Register() {
   const passwordInputRef = useRef();
@@ -26,18 +21,23 @@ function Register() {
     phoneNumber: "",
   });
 
-  const handleClick = (e) => {
-    setIsPasswordVisible((prevVisibilityState) => !prevVisibilityState);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await userApis.auth(formData, userType, "register");
+      toast.success(
+        "Registration Successful! Check your mailbox for a verification email from us 😄"
+      );
+    } catch (err) {
+      toast.error(err.response.data.error);
+    }
   };
 
   const handleChange = (e) => {
     if (e.target.name === "confirmPassword" || e.target.name === "password") {
-      if (
-        passwordInputRef.current.value !== confirmPasswordInputRef.current.value
-      ) {
-        confirmPasswordInputRef.current.setCustomValidity(
-          "Passwords must match."
-        );
+      if (passwordInputRef.current.value !== confirmPasswordInputRef.current.value) {
+        confirmPasswordInputRef.current.setCustomValidity("Passwords must match.");
       } else {
         confirmPasswordInputRef.current.setCustomValidity("");
       }
@@ -48,17 +48,8 @@ function Register() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const response = await userApis.auth(formData, "register", userType);
-    if (response.data.error) {
-      toast.error(response.error);
-      return;
-    }
-    toast.success(
-      "Registration Successful! Check your mailbox for a verification email from us 😄"
-    );
+  const handleClick = (e) => {
+    setIsPasswordVisible((prevVisibilityState) => !prevVisibilityState);
   };
 
   return (
@@ -67,12 +58,7 @@ function Register() {
       <ToggleRole setUserType={setUserType} />
       <form onSubmit={handleSubmit}>
         <FormControl sx={{ mt: 10 }}>
-          <TextField
-            required
-            name="name"
-            label="Name"
-            onChange={handleChange}
-          />
+          <TextField required name="name" label="Name" onChange={handleChange} />
           <TextField
             required
             name="email"
@@ -92,10 +78,7 @@ function Register() {
             onChange={handleChange}
             InputProps={{
               endAdornment: (
-                <EyeAdornment
-                  isPasswordVisible={isPasswordVisible}
-                  handleClick={handleClick}
-                />
+                <EyeAdornment isPasswordVisible={isPasswordVisible} handleClick={handleClick} />
               ),
             }}
             inputProps={{
@@ -114,10 +97,7 @@ function Register() {
             onChange={handleChange}
             InputProps={{
               endAdornment: (
-                <EyeAdornment
-                  isPasswordVisible={isPasswordVisible}
-                  handleClick={handleClick}
-                />
+                <EyeAdornment isPasswordVisible={isPasswordVisible} handleClick={handleClick} />
               ),
             }}
             inputProps={{
@@ -141,17 +121,13 @@ function Register() {
             onChange={handleChange}
           />
 
-          <FormHelperText id="my-helper-text">
-            We'll never share your personal details.
-          </FormHelperText>
-          <Button
-            type="submit"
-            sx={{ mt: 3 }}
-            variant="contained"
-            color="success"
-          >
+          <FormHelperText>We'll never share your personal details.</FormHelperText>
+          <Button type="submit" sx={{ mt: 3 }} variant="contained" color="success">
             Register
           </Button>
+          <FormHelperText sx={{ mt: 3 }}>
+            Already have an account? <Link to="/login">Login</Link>
+          </FormHelperText>
         </FormControl>
       </form>
     </Container>

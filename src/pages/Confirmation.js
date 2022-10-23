@@ -8,15 +8,16 @@ import toast from "react-hot-toast";
 function Confirmation() {
   const params = useParams();
   const navigate = useNavigate();
-  const userName = jwt_decode(params.emailToken).data.name;
+  const userName = jwt_decode(params.emailToken).user.name;
 
   useEffect(() => {
     const verifyUser = async () => {
-      const response = await userApis.confirm(params.emailToken);
-      if (response.data.error) {
-        toast.error(response.error);
-        return;
+      try {
+        await userApis.confirm(params.emailToken);
+      } catch (err) {
+        toast.error(err.response.data.error);
       }
+
       setTimeout(() => {
         navigate("/login");
       }, 5000);
