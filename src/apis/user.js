@@ -1,11 +1,9 @@
-import axios from "axios";
-
-const baseUrl = process.env.REACT_APP_BACKEND_URL;
+import axios from "./axios";
 
 const userApis = {
   auth: async (formData, userType, authType) => {
     const response = await axios.post(
-      `${baseUrl}/api/v1/users/${authType}`,
+      `/users/${authType}`,
       { formData, userType },
       {
         headers: { "Content-type": "application/json" },
@@ -18,12 +16,25 @@ const userApis = {
 
   confirm: async (emailToken) => {
     const response = await axios.patch(
-      `${baseUrl}/api/v1/users/confirm`,
+      "/users/confirm",
       { emailToken },
       {
         headers: {
           "Content-type": "application/json",
         },
+      }
+    );
+    return response;
+  },
+
+  refreshAccessToken: async () => {
+    // console.log("running REFRESH ACCESS TOKEN");
+    const response = await axios.post(
+      "/users/refresh-token",
+      {},
+      {
+        headers: { "Content-type": "application/json" },
+        withCredentials: true,
       }
     );
     return response;

@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
-import EyeAdornment from "../components/EyeAdornment";
-import ToggleRole from "../components/ToggleRole";
-import userApis from "../utils/apis/user";
+import EyeAdornment from "../../components/EyeAdornment";
+import ToggleUserType from "../../components/ToggleUserType";
+import userApis from "../../apis/user";
 import { Container, FormControl, FormHelperText, TextField, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -55,7 +55,7 @@ function Register() {
   return (
     <Container>
       <h1>Register</h1>
-      <ToggleRole setUserType={setUserType} />
+      <ToggleUserType setUserType={setUserType} />
       <form onSubmit={handleSubmit}>
         <FormControl sx={{ mt: 10 }}>
           <TextField required name="name" label="Name" onChange={handleChange} />

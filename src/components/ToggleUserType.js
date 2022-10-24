@@ -2,9 +2,9 @@ import Switch from "@mui/material/Switch";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useRef } from "react";
-import "./ToggleRole.css";
+import "./ToggleUserType.css";
 
-function ToggleRole({ setUserType }) {
+function ToggleUserType({ setUserType }) {
   const labelElm = useRef();
   const switchElm = useRef();
   const handleChange = (e) => {
@@ -17,21 +17,11 @@ function ToggleRole({ setUserType }) {
   };
 
   return (
-    <Stack
-      direction="row"
-      spacing={1}
-      justifyContent="center"
-      alignItems="center"
-    >
-      <Switch
-        className="toggleRole"
-        ref={switchElm}
-        onChange={handleChange}
-        defaultChecked
-      />
+    <Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
+      <Switch className="toggleUserType" ref={switchElm} onChange={handleChange} defaultChecked />
       <Typography ref={labelElm}>Customer</Typography>
     </Stack>
   );
 }
 
-export default ToggleRole;
+export default ToggleUserType;

@@ -1,14 +1,14 @@
-import EyeAdornment from "../components/EyeAdornment";
-import ToggleRole from "../components/ToggleRole";
-import { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import AuthContext from "../context/AuthProvider";
+import EyeAdornment from "../../components/EyeAdornment";
+import ToggleUserType from "../../components/ToggleUserType";
+import { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button, Container, FormControl, FormHelperText, TextField } from "@mui/material";
-import userApis from "../utils/apis/user";
+import userApis from "../../apis/user";
 import toast from "react-hot-toast";
+import useAuth from "../../hooks/useAuth";
 
 function Login() {
-  const { auth, setAuth } = useContext(AuthContext);
+  const { auth, setAuth } = useAuth();
   const [userType, setUserType] = useState("Customer");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [formData, setFormData] = useState({
@@ -17,19 +17,25 @@ function Login() {
   });
 
   const navigate = useNavigate();
+  const location = useLocation();
+  // if user came from somewhere, we navigate them back
+  let pageToNavigate = location.state?.from?.pathname;
+
+  if (!pageToNavigate) {
+    userType === "Customer" ? (pageToNavigate = "/products") : (pageToNavigate = "/orders");
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await userApis.auth(formData, userType, "login");
-
+      console.log("response from login", JSON.stringify(response?.data));
       const accessToken = response.data.accessToken;
 
-      setAuth({ email: formData.email, userType, accessToken });
-      navigate("/home");
-
+      setAuth({ user: { email: formData.email, userType, accessToken } });
       toast.success("Welcome back 😄");
+      navigate(pageToNavigate);
     } catch (err) {
       toast.error("Error: " + err.response?.data?.error);
     }
@@ -41,10 +47,14 @@ function Login() {
       [e.target.name]: e.target.value,
     });
   };
+
+  const handleClick = (e) => {
+    setIsPasswordVisible((prevVisibilityState) => !prevVisibilityState);
+  };
   return (
     <Container>
       <h1>Login</h1>
-      <ToggleRole setUserType={setUserType} />
+      <ToggleUserType setUserType={setUserType} />
       <form onSubmit={handleSubmit}>
         <FormControl sx={{ mt: 10 }}>
           <TextField
@@ -64,7 +74,9 @@ function Login() {
             label="Password"
             onChange={handleChange}
             InputProps={{
-              endAdornment: <EyeAdornment />,
+              endAdornment: (
+                <EyeAdornment isPasswordVisible={isPasswordVisible} handleClick={handleClick} />
+              ),
             }}
             inputProps={{
               minLength: 8,

@@ -1,15 +1,16 @@
-import axios from "../api/axios";
+import userApis from "../apis/user";
 import useAuth from "./useAuth";
 
 const useRefreshToken = () => {
   const { setAuth } = useAuth();
 
   const refresh = async () => {
-    const response = await axios.get("/refresh", {
-      withCredentials: true,
-    });
+    const response = await userApis.refreshAccessToken();
     setAuth((prev) => {
-      return { ...prev, accessToken: response.data.accessToken };
+      console.log("previous auth", JSON.stringify(prev));
+      console.log("new access token", response.data.accessToken);
+
+      return { user: { ...prev.user, accessToken: response.data.accessToken } };
     });
     return response.data.accessToken;
   };
