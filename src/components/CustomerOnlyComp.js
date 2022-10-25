@@ -1,8 +1,11 @@
 import { useEffect } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function CustomerOnlyComp() {
   const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const enterCustomerOnlyRoute = async () => {
@@ -11,6 +14,7 @@ function CustomerOnlyComp() {
         console.log(response.data);
       } catch (err) {
         console.log("err in cust comp", err);
+        navigate("/login", { state: { from: location }, replace: true });
       }
     };
     enterCustomerOnlyRoute();

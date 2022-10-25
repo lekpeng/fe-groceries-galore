@@ -15,7 +15,7 @@ const useAxiosPrivate = () => {
       // Do something before request is sent: Always add authorization to header before sending request
       (config) => {
         if (!config.headers["Authorization"]) {
-          config.headers["Authorization"] = `Bearer ${auth?.accessToken}`;
+          config.headers["Authorization"] = `Bearer ${auth?.user?.accessToken}`;
         }
         return config;
       },
