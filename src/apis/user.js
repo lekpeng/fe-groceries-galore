@@ -46,6 +46,10 @@ const userApis = {
     );
     return response;
   },
+  indexProfiles: async (userType) => {
+    const response = await axios.get(`/users/profiles/${userType}`);
+    return response;
+  },
 
   showProfile: async (user) => {
     const { email, userType } = user;

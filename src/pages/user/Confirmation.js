@@ -28,14 +28,14 @@ function Confirmation() {
 
   // todo: upon landing send api request to make isConfirmed true.
   return (
-    <Container>
+    <>
       <h1>Welcome to Groceries Galore, {userName}!</h1>
       <p>User verification was a success ✔</p>
       <p>You will be automatically redirected to login after 5 seconds.</p>
       <p>
         If that does not happen, please click <Link to="/login">HERE!</Link>.
       </p>
-    </Container>
+    </>
   );
 }
 

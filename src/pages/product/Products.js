@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ProductCard from "./product_components/ProductCard";
 import productApis from "../../apis/product";
 import { toast } from "react-hot-toast";
+import { Grid } from "@mui/material";
 function Products() {
   const [products, setProducts] = useState([]);
   useEffect(() => {
@@ -17,9 +18,14 @@ function Products() {
   }, []);
   return (
     <>
-      {products?.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+      <h1>All Products</h1>
+      <Grid container spacing={4}>
+        {products?.map((product) => (
+          <Grid key={product.id} item xs={4}>
+            <ProductCard key={product.id} product={product} />
+          </Grid>
+        ))}
+      </Grid>
     </>
   );
 }

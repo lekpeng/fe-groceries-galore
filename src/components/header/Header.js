@@ -72,6 +72,13 @@ const Header = () => {
               <Typography>Login</Typography>
             </Button>
           )}
+          <Button
+            component={Link}
+            to="/merchants"
+            sx={{ my: 2, color: "white", display: "block", textTransform: "none" }}>
+            <Typography>Our</Typography>
+            <Typography>Merchants</Typography>
+          </Button>
 
           <Button
             component={Link}

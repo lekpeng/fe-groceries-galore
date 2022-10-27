@@ -13,6 +13,7 @@ import Landing from "./pages/Landing";
 import PageNotFound from "./pages/PageNotFound";
 import Unauthorised from "./pages/Unauthorised";
 import Products from "./pages/product/Products";
+import Merchants from "./pages/merchant/Merchants";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="unauthorised" element={<Unauthorised />} />
           <Route path="products" element={<Products />} />
+          <Route path="merchants" element={<Merchants />} />
 
           {/* protected routes: customer and merchant */}
           <Route element={<RequireAuth allowedUserTypes={["Customer", "Merchant"]} />}>

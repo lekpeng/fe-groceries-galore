@@ -53,7 +53,7 @@ function Register() {
   };
 
   return (
-    <Container>
+    <>
       <h1>Register</h1>
       <ToggleUserType setUserType={setUserType} />
       <form onSubmit={handleSubmit}>
@@ -130,7 +130,7 @@ function Register() {
           </FormHelperText>
         </FormControl>
       </form>
-    </Container>
+    </>
   );
 }
 
