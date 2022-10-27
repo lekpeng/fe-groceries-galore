@@ -11,9 +11,7 @@ function CustomerOnlyComp() {
     const enterCustomerOnlyRoute = async () => {
       try {
         const response = await axiosPrivate.get("/users/customers-only");
-        console.log(response.data);
       } catch (err) {
-        console.log("err in cust comp", err);
         navigate("/login", { state: { from: location }, replace: true });
       }
     };

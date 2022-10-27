@@ -12,6 +12,7 @@ import MerchantOnly from "./pages/MerchantOnly";
 import Landing from "./pages/Landing";
 import PageNotFound from "./pages/PageNotFound";
 import Unauthorised from "./pages/Unauthorised";
+import Products from "./pages/product/Products";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="confirm/:emailToken" element={<Confirmation />} />
           <Route path="login" element={<Login />} />
           <Route path="unauthorised" element={<Unauthorised />} />
+          <Route path="products" element={<Products />} />
 
           {/* protected routes: customer and merchant */}
           <Route element={<RequireAuth allowedUserTypes={["Customer", "Merchant"]} />}>

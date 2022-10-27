@@ -6,19 +6,11 @@ import "./EyeAdornment.css";
 function EyeAdornment({ isPasswordVisible, handleClick }) {
   return isPasswordVisible ? (
     <InputAdornment position="end">
-      <VisibilityIcon
-        className="eyeAdornment__icon"
-        fontSize="default"
-        onClick={handleClick}
-      />
+      <VisibilityIcon className="eyeAdornment__icon" fontSize="default" onClick={handleClick} />
     </InputAdornment>
   ) : (
     <InputAdornment position="end">
-      <VisibilityOffIcon
-        className="eyeAdornment__icon"
-        fontSize="default"
-        onClick={handleClick}
-      />
+      <VisibilityOffIcon className="eyeAdornment__icon" fontSize="default" onClick={handleClick} />
     </InputAdornment>
   );
 }

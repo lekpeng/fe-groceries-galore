@@ -4,7 +4,7 @@ import { useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 
 function AuthNeeded() {
-  const { setAuth } = useContext(AuthContext);
+  const { auth, setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const logout = async () => {

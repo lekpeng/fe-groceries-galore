@@ -14,6 +14,14 @@ const userApis = {
     return response;
   },
 
+  logout: async () => {
+    const response = await axios.delete("/users/logout", {
+      headers: { "Content-type": "application/json" },
+      withCredentials: true,
+    });
+    return response;
+  },
+
   confirm: async (emailToken) => {
     const response = await axios.patch(
       "/users/confirm",
@@ -28,7 +36,6 @@ const userApis = {
   },
 
   refreshAccessToken: async () => {
-    // console.log("running REFRESH ACCESS TOKEN");
     const response = await axios.post(
       "/users/refresh-token",
       {},
@@ -37,6 +44,12 @@ const userApis = {
         withCredentials: true,
       }
     );
+    return response;
+  },
+
+  showProfile: async (user) => {
+    const { email, userType } = user;
+    const response = await axios.get(`/users/profiles/${userType}/${email}`);
     return response;
   },
 };

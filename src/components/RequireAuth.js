@@ -5,10 +5,6 @@ function RequireAuth({ allowedUserTypes }) {
   const { auth } = useAuth();
   const location = useLocation();
 
-  // console.log("---> RUNNING require Auth <----");
-  // console.log("allowedUserTypes", allowedUserTypes);
-  // console.log("auth", auth);
-
   return allowedUserTypes.includes(auth?.user?.userType) ? (
     <Outlet />
   ) : auth?.user ? (

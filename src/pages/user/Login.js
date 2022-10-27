@@ -1,14 +1,14 @@
-import EyeAdornment from "../../components/EyeAdornment";
-import ToggleUserType from "../../components/ToggleUserType";
+import EyeAdornment from "./user_components/EyeAdornment";
+import ToggleUserType from "./user_components/ToggleUserType";
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Button, Container, FormControl, FormHelperText, TextField } from "@mui/material";
+import { Button, FormControl, FormHelperText, TextField } from "@mui/material";
 import userApis from "../../apis/user";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 
 function Login() {
-  const { auth, setAuth } = useAuth();
+  const { setAuth } = useAuth();
   const [userType, setUserType] = useState("Customer");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [formData, setFormData] = useState({
@@ -30,7 +30,6 @@ function Login() {
 
     try {
       const response = await userApis.auth(formData, userType, "login");
-      console.log("response from login", JSON.stringify(response?.data));
       const accessToken = response.data.accessToken;
 
       setAuth({ user: { email: formData.email, userType, accessToken } });
@@ -52,7 +51,7 @@ function Login() {
     setIsPasswordVisible((prevVisibilityState) => !prevVisibilityState);
   };
   return (
-    <Container>
+    <>
       <h1>Login</h1>
       <ToggleUserType setUserType={setUserType} />
       <form onSubmit={handleSubmit}>
@@ -92,7 +91,7 @@ function Login() {
           </FormHelperText>
         </FormControl>
       </form>
-    </Container>
+    </>
   );
 }
 

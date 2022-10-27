@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
-import EyeAdornment from "../../components/EyeAdornment";
-import ToggleUserType from "../../components/ToggleUserType";
+import EyeAdornment from "./user_components/EyeAdornment";
+import ToggleUserType from "./user_components/ToggleUserType";
 import userApis from "../../apis/user";
 import { Container, FormControl, FormHelperText, TextField, Button } from "@mui/material";
 import { Link } from "react-router-dom";

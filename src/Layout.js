@@ -1,10 +1,14 @@
 import { Outlet } from "react-router-dom";
+import Header from "./components/header/Header";
+import Container from "@mui/material/Container";
 
 const Layout = () => {
   return (
     <main className="Layout">
-      {/* nav bar to go here, and inside nav bar component, to render differently acc to auth state and role */}
-      <Outlet />
+      <Header />
+      <Container sx={{ mt: "4rem", pt: "2rem" }}>
+        <Outlet />
+      </Container>
     </main>
   );
 };
