@@ -1,29 +1,50 @@
 import EyeAdornment from "./user_components/EyeAdornment";
 import ToggleUserType from "./user_components/ToggleUserType";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button, FormControl, FormHelperText, TextField } from "@mui/material";
 import userApis from "../../apis/user";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import useCart from "../../hooks/useCart";
 
 function Login() {
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const [userType, setUserType] = useState("Customer");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
+  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
+  const [cart, setCart] = useCart();
   // if user came from somewhere, we navigate them back
   let pageToNavigate = location.state?.from?.pathname;
 
   if (!pageToNavigate) {
     userType === "Customer" ? (pageToNavigate = "/products") : (pageToNavigate = "/orders");
   }
+
+  useEffect(() => {
+    console.log("running use effect");
+    const initializeCart = async () => {
+      const cartResponse = await axiosPrivate.get("/orders/cart");
+      console.log("CART RESPONSE", cartResponse.data.orders);
+      await setCart({
+        type: "INITIALIZE_CART",
+        cart: cartResponse.data.orders,
+      });
+      toast.success("Welcome back 😄");
+      navigate(pageToNavigate);
+    };
+    if (auth?.user) {
+      console.log("IN IF LOOP OF UE");
+      initializeCart();
+    }
+  }, [auth]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,8 +54,6 @@ function Login() {
       const accessToken = response.data.accessToken;
 
       setAuth({ user: { email: formData.email, userType, accessToken } });
-      toast.success("Welcome back 😄");
-      navigate(pageToNavigate);
     } catch (err) {
       toast.error("Error: " + err.response?.data?.error);
     }

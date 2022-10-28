@@ -13,7 +13,11 @@ import Landing from "./pages/Landing";
 import PageNotFound from "./pages/PageNotFound";
 import Unauthorised from "./pages/Unauthorised";
 import Products from "./pages/product/Products";
+import Product from "./pages/product/Product";
 import Merchants from "./pages/merchant/Merchants";
+import Orders from "./pages/order/Orders";
+import Checkout from "./pages/customer/Checkout";
+import Payment from "./pages/customer/Payment";
 
 function App() {
   return (
@@ -28,16 +32,21 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="unauthorised" element={<Unauthorised />} />
           <Route path="products" element={<Products />} />
+          <Route path="products/:productId" element={<Product />} />
+
           <Route path="merchants" element={<Merchants />} />
 
           {/* protected routes: customer and merchant */}
           <Route element={<RequireAuth allowedUserTypes={["Customer", "Merchant"]} />}>
             <Route path="auth-needed" element={<AuthNeeded />} />
+            <Route path="orders" element={<Orders />} />
           </Route>
 
           {/* protected routes: customer only */}
           <Route element={<RequireAuth allowedUserTypes={["Customer"]} />}>
             <Route path="customer-only" element={<CustomerOnly />} />
+            <Route path="checkout" element={<Checkout />} />
+            <Route path="payment" element={<Payment />} />
           </Route>
 
           {/* protected routes: merchant only */}
