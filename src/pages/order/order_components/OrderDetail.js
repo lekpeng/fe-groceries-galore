@@ -4,7 +4,6 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
-import React from "react";
 import currency from "currency.js";
 
 function OrderDetail({ orderDetail }) {
@@ -25,7 +24,7 @@ function OrderDetail({ orderDetail }) {
         <CardMedia component="img" height="194" image={orderDetail?.Product?.imageUrl} />
         <CardContent>
           <Typography variant="body2" color="text.secondary">
-            Price: ${currency(orderDetail?.productPrice).format()}
+            Price: {currency(orderDetail?.productPrice).format()}
           </Typography>
 
           <Typography variant="body2" color="text.secondary">
@@ -35,15 +34,6 @@ function OrderDetail({ orderDetail }) {
         <CardActions disableSpacing></CardActions>
       </Card>
     </>
-    // <CardContent>
-    //   <Typography variant="body2" color="text.secondary">
-    //     Price: {orderDetail?.productPrice}
-    //   </Typography>
-
-    //   <Typography variant="body2" color="text.secondary">
-    //     Quantity: {orderDetail?.productQuantity}
-    //   </Typography>
-    // </CardContent>
   );
 }
 

@@ -16,8 +16,8 @@ import Products from "./pages/product/Products";
 import Product from "./pages/product/Product";
 import Merchants from "./pages/merchant/Merchants";
 import Orders from "./pages/order/Orders";
-import Checkout from "./pages/customer/Checkout";
-import Payment from "./pages/customer/Payment";
+import Checkout from "./pages/order/Checkout";
+import Payment from "./pages/order/Payment";
 
 function App() {
   return (

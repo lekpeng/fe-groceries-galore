@@ -1,12 +1,10 @@
 import { Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import OrderCard from "./order_components/OrderCard";
 
 function Orders() {
-  const { auth, setAuth } = useAuth();
   const [orders, setOrders] = useState([]);
   const axiosPrivate = useAxiosPrivate();
   useEffect(() => {
