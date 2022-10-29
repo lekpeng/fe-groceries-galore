@@ -4,7 +4,7 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
-import BackgroundLetterAvatar from "../../../components/avatar/ColoredAvatar";
+import ColoredAvatar from "../../../components/avatar/ColoredAvatar";
 
 function ProductCard({ product }) {
   return (
@@ -21,9 +21,7 @@ function ProductCard({ product }) {
         subheaderTypographyProps={{
           fontSize: 11,
         }}
-        avatar={
-          <BackgroundLetterAvatar name={product.Merchant?.name} size={"40px"} fontSize={"12px"} />
-        }
+        avatar={<ColoredAvatar name={product.Merchant?.name} size={"40px"} fontSize={"12px"} />}
         title={product?.name}
         subheader={product?.description}
       />

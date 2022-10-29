@@ -8,7 +8,7 @@ import userApis from "../../apis/user";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useCart from "../../hooks/useCart";
-import { getCartQuantity } from "../../reducers/CartReducer";
+import { getCartQuantity } from "../../reducers/Reducer";
 
 const Header = () => {
   // const isMatch = useMediaQuery(theme.breakpoints.down("md"));
@@ -44,7 +44,6 @@ const Header = () => {
       toast.error(err.response.data.error);
     }
   };
-  console.log("auth", auth);
   return (
     <AppBar sx={{ background: "#063970", mb: "4rem" }}>
       <Toolbar sx={{ height: "60px", justifyContent: "space-between" }}>

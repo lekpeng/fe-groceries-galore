@@ -29,19 +29,16 @@ function Login() {
   }
 
   useEffect(() => {
-    console.log("running use effect");
     const initializeCart = async () => {
       const cartResponse = await axiosPrivate.get("/orders/cart");
-      console.log("CART RESPONSE", cartResponse.data.orders);
       await setCart({
-        type: "INITIALIZE_CART",
+        type: "SET_CART",
         cart: cartResponse.data.orders,
       });
       toast.success("Welcome back 😄");
       navigate(pageToNavigate);
     };
     if (auth?.user) {
-      console.log("IN IF LOOP OF UE");
       initializeCart();
     }
   }, [auth]);

@@ -11,7 +11,6 @@ function Orders() {
     const indexOrders = async () => {
       try {
         const response = await axiosPrivate.get("/orders");
-        console.log("response fr FE", response);
         setOrders(response.data.orders);
       } catch (err) {
         toast.error(err.response.data.error);

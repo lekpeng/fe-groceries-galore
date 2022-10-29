@@ -10,7 +10,6 @@ function Product() {
   useEffect(() => {
     const showProduct = async () => {
       try {
-        console.log("im trying");
         const response = await productApis.showProduct(params.productId);
         setProduct(response.data.product);
       } catch (err) {

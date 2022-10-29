@@ -1,6 +1,6 @@
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-import BackgroundLetterAvatar from "../../../components/avatar/ColoredAvatar";
+import ColoredAvatar from "../../../components/avatar/ColoredAvatar";
 
 function MerchantCard({ merchant }) {
   return (
@@ -10,7 +10,7 @@ function MerchantCard({ merchant }) {
           fontWeight: "bold",
           fontSize: "30px",
         }}
-        avatar={<BackgroundLetterAvatar name={merchant.name} size={"75px"} fontSize={"18px"} />}
+        avatar={<ColoredAvatar name={merchant.name} size={"75px"} fontSize={"18px"} />}
         title={merchant.name}
       />
     </Card>
