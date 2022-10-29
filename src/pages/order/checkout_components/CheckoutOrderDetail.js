@@ -5,9 +5,8 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import currency from "currency.js";
-import { Box, IconButton, Toolbar } from "@mui/material";
-import RemoveIcon from "@mui/icons-material/Remove";
-import AddIcon from "@mui/icons-material/Add";
+import { Box, Toolbar } from "@mui/material";
+import ProductCounter from "../../../components/product_counter.js/ProductCounter";
 
 function CheckoutOrderDetail({ orderDetail }) {
   return (
@@ -43,15 +42,9 @@ function CheckoutOrderDetail({ orderDetail }) {
               <Typography variant="body2" color="text.secondary"></Typography>
             </CardContent>
             <CardActions disableSpacing>
-              <IconButton>
-                <RemoveIcon />
-              </IconButton>
-              <Typography variant="body2" color="text.secondary">
-                {orderDetail?.productQuantity} in cart
-              </Typography>
-              <IconButton>
-                <AddIcon />
-              </IconButton>
+              <ProductCounter
+                product={orderDetail?.Product}
+                customerProductQuantity={orderDetail?.productQuantity}></ProductCounter>
             </CardActions>
           </Box>
         </Toolbar>

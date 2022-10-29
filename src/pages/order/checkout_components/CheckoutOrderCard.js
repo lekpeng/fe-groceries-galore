@@ -16,14 +16,11 @@ function CheckoutOrderCard({ order }) {
           sx={{ width: "200px", margin: "0 auto" }}
         />
       </Card>
-      {/* <Box sx={{ display: "flex" }}> */}
       <Box sx={{ flex: 0.7 }}>
         {order?.OrderDetails.map((orderDetail) => (
           <CheckoutOrderDetail key={orderDetail.id} orderDetail={orderDetail} />
         ))}
       </Box>
-      {/* </Box>
-      <Box sx={{ flex: 0.3 }}></Box> */}
     </Box>
   );
 }

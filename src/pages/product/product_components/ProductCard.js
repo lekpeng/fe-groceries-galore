@@ -5,8 +5,16 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import ColoredAvatar from "../../../components/avatar/ColoredAvatar";
+import { getProductQuantity } from "../../../reducers/CartSelector";
+import useStateValue from "../../../hooks/useStateValue";
+import ProductCounter from "../../../components/product_counter.js/ProductCounter";
+import useAuth from "../../../hooks/useAuth";
+import currency from "currency.js";
 
 function ProductCard({ product }) {
+  const { auth, setAuth } = useAuth();
+  const [{ cart }, dispatch] = useStateValue();
+
   return (
     <Card sx={{ border: 1, borderColor: "#c1bfbf96" }}>
       <Typography sx={{ fontSize: 8, textAlign: "right", pr: 2, pt: 2 }}>
@@ -27,12 +35,19 @@ function ProductCard({ product }) {
       />
       <CardMedia component="img" height="194" image={product.imageUrl} />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {product.ProductCategory?.name}
+        <Typography variant="h6" color="text.primary" sx={{ fontSize: "15px" }}>
+          {currency(product.price).format()}
         </Typography>
-        <Typography variant="body2" color="text.secondary"></Typography>
       </CardContent>
-      <CardActions disableSpacing></CardActions>
+      <CardActions disableSpacing>
+        {auth?.user ? (
+          <ProductCounter
+            product={product}
+            customerProductQuantity={getProductQuantity(cart, product.id)}></ProductCounter>
+        ) : (
+          <></>
+        )}
+      </CardActions>
     </Card>
   );
 }

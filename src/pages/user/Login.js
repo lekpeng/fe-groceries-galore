@@ -7,7 +7,7 @@ import userApis from "../../apis/user";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import useCart from "../../hooks/useCart";
+import useStateValue from "../../hooks/useStateValue";
 
 function Login() {
   const { auth, setAuth } = useAuth();
@@ -20,7 +20,7 @@ function Login() {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
-  const [cart, setCart] = useCart();
+  const [{ cart }, dispatch] = useStateValue();
   // if user came from somewhere, we navigate them back
   let pageToNavigate = location.state?.from?.pathname;
 
@@ -31,7 +31,7 @@ function Login() {
   useEffect(() => {
     const initializeCart = async () => {
       const cartResponse = await axiosPrivate.get("/orders/cart");
-      await setCart({
+      await dispatch({
         type: "SET_CART",
         cart: cartResponse.data.orders,
       });

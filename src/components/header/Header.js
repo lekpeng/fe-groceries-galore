@@ -7,13 +7,13 @@ import useAuth from "../../hooks/useAuth";
 import userApis from "../../apis/user";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import useCart from "../../hooks/useCart";
-import { getCartQuantity } from "../../reducers/Reducer";
+import useStateValue from "../../hooks/useStateValue";
+import { getCartQuantity } from "../../reducers/CartSelector";
 
 const Header = () => {
   // const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   const { auth, setAuth } = useAuth();
-  const [cart, setCart] = useCart();
+  const [{ cart }, dispatch] = useStateValue();
 
   const [profile, setProfile] = useState(null);
 

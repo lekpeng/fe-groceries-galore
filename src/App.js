@@ -26,7 +26,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           {/* public routes */}
-          <Route path="/" element={<Landing />} />
+          <Route path="/" element={<Products />} />
           <Route path="register" element={<Register />} />
           <Route path="confirm/:emailToken" element={<Confirmation />} />
           <Route path="login" element={<Login />} />
