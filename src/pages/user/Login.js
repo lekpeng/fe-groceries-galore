@@ -22,7 +22,8 @@ function Login() {
   const location = useLocation();
   const [{ cart }, dispatch] = useStateValue();
   // if user came from somewhere, we navigate them back
-  let pageToNavigate = location.state?.from?.pathname;
+  // let pageToNavigate = location.state?.from?.pathname;
+  let pageToNavigate = null;
 
   if (!pageToNavigate) {
     userType === "Customer" ? (pageToNavigate = "/products") : (pageToNavigate = "/orders");
@@ -38,8 +39,10 @@ function Login() {
       toast.success("Welcome back 😄");
       navigate(pageToNavigate);
     };
-    if (auth?.user) {
+    if (auth?.user?.userType === "Customer") {
       initializeCart();
+    } else if (auth?.user?.userType === "Merchant") {
+      navigate(pageToNavigate);
     }
   }, [auth]);
 
@@ -52,7 +55,7 @@ function Login() {
 
       setAuth({ user: { email: formData.email, userType, accessToken } });
     } catch (err) {
-      toast.error("Error: " + err.response?.data?.error);
+      toast.error(err.response.data.error);
     }
   };
 
@@ -72,14 +75,7 @@ function Login() {
       <ToggleUserType setUserType={setUserType} />
       <form onSubmit={handleSubmit}>
         <FormControl sx={{ mt: 10 }}>
-          <TextField
-            required
-            name="email"
-            type="email"
-            sx={{ mt: 3 }}
-            label="Email"
-            onChange={handleChange}
-          />
+          <TextField required name="email" type="email" sx={{ mt: 3 }} label="Email" onChange={handleChange} />
 
           <TextField
             required
@@ -89,9 +85,7 @@ function Login() {
             label="Password"
             onChange={handleChange}
             InputProps={{
-              endAdornment: (
-                <EyeAdornment isPasswordVisible={isPasswordVisible} handleClick={handleClick} />
-              ),
+              endAdornment: <EyeAdornment isPasswordVisible={isPasswordVisible} handleClick={handleClick} />,
             }}
             inputProps={{
               minLength: 8,

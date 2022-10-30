@@ -10,26 +10,15 @@ export const getProductQuantity = (cart, productId) => {
 };
 
 export const getOrderQuantity = (order) => {
-  return order?.OrderDetails?.reduce(
-    (total, orderDetail) => total + orderDetail.productQuantity,
-    0
-  );
+  return order?.OrderDetails?.reduce((total, orderDetail) => total + orderDetail.productQuantity, 0);
 };
 
 export const getOrderAmountPayable = (order) => {
-  return order?.OrderDetails?.reduce(
-    (total, orderDetail) => orderDetail.productPrice * orderDetail.productQuantity + total,
-    0
-  );
+  return order?.OrderDetails?.reduce((total, orderDetail) => orderDetail.productPrice * orderDetail.productQuantity + total, 0);
 };
 
 export const getCartQuantity = (cart) => {
   return cart?.reduce((total, order) => total + getOrderQuantity(order), 0);
 };
 
-export const getCartAmountPayable = (cart) =>
-  cart?.reduce((total, order) => total + getOrderAmountPayable(order), 0);
-
-const existingOrderWithSameMerchant = (merchantId, cart) => {
-  return cart?.find((Order) => Order.MerchantId === merchantId);
-};
+export const getCartAmountPayable = (cart) => cart?.reduce((total, order) => total + getOrderAmountPayable(order), 0);

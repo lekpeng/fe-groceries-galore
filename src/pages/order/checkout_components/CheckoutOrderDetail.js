@@ -7,24 +7,26 @@ import Typography from "@mui/material/Typography";
 import currency from "currency.js";
 import { Box, Toolbar } from "@mui/material";
 import ProductCounter from "../../../components/product_counter.js/ProductCounter";
+import { forwardRef } from "react";
 
-function CheckoutOrderDetail({ orderDetail }) {
+const CheckoutOrderDetail = forwardRef(({ orderDetail }, ref) => {
   return (
-    <>
+    <div ref={ref}>
       <Card sx={{ padding: 1 }}>
         <Toolbar>
           <CardMedia
             component="img"
-            sx={{ objectFit: "contain", width: "180px", height: "180px" }}
+            sx={{ objectFit: "contain", width: "120px", height: "120px" }}
             image={orderDetail?.Product?.imageUrl}
           />
           <Box
             sx={{
-              height: "180px",
+              height: "120px",
             }}>
             <CardHeader
               titleTypographyProps={{
                 fontWeight: "bold",
+                textAlign: "left",
                 fontSize: 18,
               }}
               subheaderTypographyProps={{
@@ -37,8 +39,7 @@ function CheckoutOrderDetail({ orderDetail }) {
               subheader={currency(orderDetail?.productPrice).format()}
               sx={{ padding: 0 }}
             />
-            <CardContent
-              sx={{ padding: 0, display: "flex", flexDirection: "column", alignItems: "start" }}>
+            <CardContent sx={{ padding: 0, display: "flex", flexDirection: "column", alignItems: "start" }}>
               <Typography variant="body2" color="text.secondary"></Typography>
             </CardContent>
             <CardActions disableSpacing>
@@ -49,8 +50,8 @@ function CheckoutOrderDetail({ orderDetail }) {
           </Box>
         </Toolbar>
       </Card>
-    </>
+    </div>
   );
-}
+});
 
 export default CheckoutOrderDetail;

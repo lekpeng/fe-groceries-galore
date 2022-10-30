@@ -15,7 +15,7 @@ function AmountPayable() {
   const [{ cart }, dispatch] = useStateValue();
 
   return (
-    <Box sx={{ border: 1, borderColor: "#c1bfbf96", mb: 3, padding: 2 }}>
+    <Box sx={{ mb: 3, padding: 3 }}>
       <Typography fontWeight="bold" variant="h6" sx={{ mb: 2 }}>
         Order Summary
       </Typography>
@@ -29,14 +29,14 @@ function AmountPayable() {
           </Typography>
         </Box>
       ))}
-      <Typography variant="body1" textAlign="left">
+      <Typography sx={{ mt: 2 }} fontWeight="bold" variant="body1" textAlign="left">
         Order Total: ({getCartQuantity(cart)} items)
       </Typography>
-      <Typography sx={{ mb: 1 }} fontWeight="bold" textAlign="left">
+      <Typography sx={{ mb: 2 }} fontSize="18px" fontWeight="bold" textAlign="left">
         {currency(getCartAmountPayable(cart)).format()}
       </Typography>
 
-      <Button onClick={(e) => navigate("/payment")}>Proceed to Checkout</Button>
+      <Button onClick={(e) => navigate("/payment")}>Proceed to Payment</Button>
     </Box>
   );
 }

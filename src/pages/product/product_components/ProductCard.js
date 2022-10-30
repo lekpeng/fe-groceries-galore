@@ -17,9 +17,7 @@ function ProductCard({ product }) {
 
   return (
     <Card sx={{ border: 1, borderColor: "#c1bfbf96" }}>
-      <Typography sx={{ fontSize: 8, textAlign: "right", pr: 2, pt: 2 }}>
-        {product.ProductCategory?.name}
-      </Typography>
+      <Typography sx={{ fontSize: 8, textAlign: "right", pr: 2, pt: 2 }}>{product.ProductCategory?.name}</Typography>
       <CardHeader
         sx={{ pt: 0, pr: 2, pl: 2, pb: 2 }}
         titleTypographyProps={{
@@ -33,7 +31,7 @@ function ProductCard({ product }) {
         title={product?.name}
         subheader={product?.description}
       />
-      <CardMedia component="img" height="194" image={product.imageUrl} />
+      <CardMedia component="img" height="194" sx={{ objectFit: "contain" }} image={product.imageUrl} />
       <CardContent>
         <Typography variant="h6" color="text.primary" sx={{ fontSize: "15px" }}>
           {currency(product.price).format()}

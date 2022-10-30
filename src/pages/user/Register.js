@@ -26,9 +26,7 @@ function Register() {
 
     try {
       await userApis.auth(formData, userType, "register");
-      toast.success(
-        "Registration Successful! Check your mailbox for a verification email from us 😄"
-      );
+      toast.success("Registration Successful!\nCheck your mailbox for a verification email from us 😄");
     } catch (err) {
       toast.error(err.response.data.error);
     }
@@ -59,14 +57,7 @@ function Register() {
       <form onSubmit={handleSubmit}>
         <FormControl sx={{ mt: 10 }}>
           <TextField required name="name" label="Name" onChange={handleChange} />
-          <TextField
-            required
-            name="email"
-            type="email"
-            sx={{ mt: 3 }}
-            label="Email"
-            onChange={handleChange}
-          />
+          <TextField required name="email" type="email" sx={{ mt: 3 }} label="Email" onChange={handleChange} />
 
           <TextField
             required
@@ -77,9 +68,7 @@ function Register() {
             label="Password"
             onChange={handleChange}
             InputProps={{
-              endAdornment: (
-                <EyeAdornment isPasswordVisible={isPasswordVisible} handleClick={handleClick} />
-              ),
+              endAdornment: <EyeAdornment isPasswordVisible={isPasswordVisible} handleClick={handleClick} />,
             }}
             inputProps={{
               minLength: 8,
@@ -96,9 +85,7 @@ function Register() {
             label="Password again"
             onChange={handleChange}
             InputProps={{
-              endAdornment: (
-                <EyeAdornment isPasswordVisible={isPasswordVisible} handleClick={handleClick} />
-              ),
+              endAdornment: <EyeAdornment isPasswordVisible={isPasswordVisible} handleClick={handleClick} />,
             }}
             inputProps={{
               minLength: 8,
@@ -106,20 +93,8 @@ function Register() {
             }}
           />
 
-          <TextField
-            required
-            name="address"
-            sx={{ mt: 3 }}
-            label="Address"
-            onChange={handleChange}
-          />
-          <TextField
-            required
-            name="phoneNumber"
-            sx={{ mt: 3 }}
-            label="Phone Number"
-            onChange={handleChange}
-          />
+          <TextField required name="address" sx={{ mt: 3 }} label="Address" onChange={handleChange} />
+          <TextField required name="phoneNumber" sx={{ mt: 3 }} label="Phone Number" onChange={handleChange} />
 
           <FormHelperText>We'll never share your personal details.</FormHelperText>
           <Button type="submit" sx={{ mt: 3 }} variant="contained" color="success">

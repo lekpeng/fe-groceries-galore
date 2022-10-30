@@ -6,10 +6,6 @@ import Register from "./pages/user/Register";
 import Confirmation from "./pages/user/Confirmation";
 import Login from "./pages/user/Login";
 import Layout from "./Layout";
-import AuthNeeded from "./pages/AuthNeeded";
-import CustomerOnly from "./pages/CustomerOnly";
-import MerchantOnly from "./pages/MerchantOnly";
-import Landing from "./pages/Landing";
 import PageNotFound from "./pages/PageNotFound";
 import Unauthorised from "./pages/Unauthorised";
 import Products from "./pages/product/Products";
@@ -18,6 +14,12 @@ import Merchants from "./pages/merchant/Merchants";
 import Orders from "./pages/order/Orders";
 import Checkout from "./pages/order/Checkout";
 import Payment from "./pages/order/Payment";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
+const promise = loadStripe(
+  "pk_test_51LyWiyHrSLP2bvAc3Zz5TtGUCLz2V5XEbpVA6R8ENz4SYm5vulUqAXQ8733IFCAWaE4rJ7QinE7YzrglwFMVWeaa0053b2ovyM"
+);
 
 function App() {
   return (
@@ -38,21 +40,24 @@ function App() {
 
           {/* protected routes: customer and merchant */}
           <Route element={<RequireAuth allowedUserTypes={["Customer", "Merchant"]} />}>
-            <Route path="auth-needed" element={<AuthNeeded />} />
             <Route path="orders" element={<Orders />} />
           </Route>
 
           {/* protected routes: customer only */}
           <Route element={<RequireAuth allowedUserTypes={["Customer"]} />}>
-            <Route path="customer-only" element={<CustomerOnly />} />
             <Route path="checkout" element={<Checkout />} />
-            <Route path="payment" element={<Payment />} />
+            <Route
+              path="payment"
+              element={
+                <Elements stripe={promise}>
+                  <Payment />
+                </Elements>
+              }
+            />
           </Route>
 
           {/* protected routes: merchant only */}
-          <Route element={<RequireAuth allowedUserTypes={["Merchant"]} />}>
-            <Route path="merchant-only" element={<MerchantOnly />} />
-          </Route>
+          <Route element={<RequireAuth allowedUserTypes={["Merchant"]} />}></Route>
 
           {/* catch-all */}
 

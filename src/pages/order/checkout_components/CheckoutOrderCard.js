@@ -1,6 +1,7 @@
 import { Box, Card, CardHeader } from "@mui/material";
 import ColoredAvatar from "../../../components/avatar/ColoredAvatar";
 import CheckoutOrderDetail from "./CheckoutOrderDetail";
+import FlipMove from "react-flip-move";
 
 function CheckoutOrderCard({ order }) {
   return (
@@ -17,9 +18,11 @@ function CheckoutOrderCard({ order }) {
         />
       </Card>
       <Box sx={{ flex: 0.7 }}>
-        {order?.OrderDetails.map((orderDetail) => (
-          <CheckoutOrderDetail key={orderDetail.id} orderDetail={orderDetail} />
-        ))}
+        <FlipMove>
+          {order?.OrderDetails.map((orderDetail) => (
+            <CheckoutOrderDetail key={orderDetail.id} orderDetail={orderDetail} />
+          ))}
+        </FlipMove>
       </Box>
     </Box>
   );

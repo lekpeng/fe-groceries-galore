@@ -5,6 +5,7 @@ import useStateValue from "../../hooks/useStateValue";
 import debounce from "lodash.debounce";
 import { useCallback, useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import toast from "react-hot-toast";
 
 const INTERVAL = 500;
 
@@ -33,8 +34,7 @@ function ProductCounter({ product, customerProductQuantity }) {
       });
       setChangesInQuantity({ add: 0, remove: 0 });
     } catch (err) {
-      console.log("err in adding item", err);
-      console.log(err.response.data.error);
+      toast.error(err.response.data.error);
     }
   };
   const removeItem = async (decrement) => {
@@ -53,8 +53,7 @@ function ProductCounter({ product, customerProductQuantity }) {
       });
       setChangesInQuantity({ add: 0, remove: 0 });
     } catch (err) {
-      console.log("err in removing item", err);
-      console.log(err.response.data.error);
+      toast.error(err.response.data.error);
     }
   };
 
