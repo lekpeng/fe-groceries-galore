@@ -6,6 +6,7 @@ import AmountPayable from "./checkout_components/AmountPayable";
 
 function Checkout() {
   const [{ cart }, dispatch] = useStateValue();
+  // on load remove items that are out of stock
   return (
     <>
       <h1>Your Cart</h1>

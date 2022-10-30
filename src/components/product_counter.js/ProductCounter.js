@@ -2,20 +2,44 @@ import { IconButton, Typography } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import useStateValue from "../../hooks/useStateValue";
-// import debounce from "lodash.debounce";
-// import { useMemo, useEffect, useState } from "react";
-import useAuth from "../../hooks/useAuth";
+import debounce from "lodash.debounce";
+import { useCallback, useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
+const INTERVAL = 500;
+
 function ProductCounter({ product, customerProductQuantity }) {
-  const { auth, setAuth } = useAuth();
   const [{ cart }, dispatch] = useStateValue();
-  // const [numClicks, setNumClicks] = useState(0);
-
   const axiosPrivate = useAxiosPrivate();
+  const [changesInQuantity, setChangesInQuantity] = useState({ add: 0, remove: 0 });
+  const [isTimeToMakeApiCall, setIsTimeToMakeApiCall] = useState(false);
 
-  const removeItem = async () => {
-    const newCustomerProductQuantity = Math.max(0, customerProductQuantity - 1);
+  const addItem = async (increment) => {
+    // TODO: alert customer not to increase beyond product stock
+    const newCustomerProductQuantity = Math.min(
+      product.quantity,
+      customerProductQuantity + increment
+    );
+
+    try {
+      const cartResponse = await axiosPrivate.post("/orders/cart/add-items", {
+        product: product,
+        customerProductQuantity: newCustomerProductQuantity,
+      });
+      console.log("ADD CART RESPONSE", cartResponse);
+      await dispatch({
+        type: "SET_CART",
+        cart: cartResponse.data.orders,
+      });
+      setChangesInQuantity({ add: 0, remove: 0 });
+    } catch (err) {
+      console.log("err in adding item", err);
+      console.log(err.response.data.error);
+    }
+  };
+  const removeItem = async (decrement) => {
+    // TODO: prevent customer from decreasing when item count is already 0 in cart
+    const newCustomerProductQuantity = Math.max(0, customerProductQuantity + decrement);
     try {
       const cartResponse = await axiosPrivate.put("/orders/cart/remove-items", {
         product: product,
@@ -27,39 +51,53 @@ function ProductCounter({ product, customerProductQuantity }) {
         type: "SET_CART",
         cart: cartResponse.data.orders,
       });
+      setChangesInQuantity({ add: 0, remove: 0 });
     } catch (err) {
       console.log("err in removing item", err);
       console.log(err.response.data.error);
     }
   };
 
-  const addItem = async () => {
-    const newCustomerProductQuantity = Math.min(product.quantity, customerProductQuantity + 1);
-
-    try {
-      const cartResponse = await axiosPrivate.post("/orders/cart/add-items", {
-        product: product,
-        customerProductQuantity: newCustomerProductQuantity,
-      });
-      await dispatch({
-        type: "SET_CART",
-        cart: cartResponse.data.orders,
-      });
-    } catch (err) {
-      console.log("err in adding item", err);
-      console.log(err.response.data.error);
+  const makeApiCall = () => {
+    const changeInQuantity = changesInQuantity.add - changesInQuantity.remove;
+    if (changeInQuantity > 0) {
+      addItem(changeInQuantity);
     }
+
+    if (changeInQuantity < 0) {
+      removeItem(changeInQuantity);
+    }
+  };
+  useEffect(() => {
+    if (isTimeToMakeApiCall) {
+      makeApiCall();
+    }
+  }, [isTimeToMakeApiCall]);
+
+  const debouncedApiCall = useCallback(
+    debounce(() => {
+      setIsTimeToMakeApiCall(true);
+    }, INTERVAL),
+    []
+  );
+
+  const handleClick = (type) => {
+    setIsTimeToMakeApiCall(false);
+    setChangesInQuantity((prev) => {
+      return { ...prev, [type]: prev[type] + 1 };
+    });
+    return debouncedApiCall();
   };
 
   return (
     <>
-      <IconButton onClick={removeItem}>
+      <IconButton className="remove" onClick={() => handleClick("remove")}>
         <RemoveIcon />
       </IconButton>
       <Typography variant="body2" color="text.secondary">
         {customerProductQuantity} in cart
       </Typography>
-      <IconButton onClick={addItem}>
+      <IconButton className="add" onClick={() => handleClick("add")}>
         <AddIcon />
       </IconButton>
     </>
