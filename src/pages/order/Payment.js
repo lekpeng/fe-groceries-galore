@@ -10,6 +10,7 @@ import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import currency from "currency.js";
 import { getCartAmountPayable } from "../../reducers/CartSelector";
+import { TrySharp } from "@mui/icons-material";
 
 function Payment() {
   const navigate = useNavigate();
@@ -30,6 +31,40 @@ function Payment() {
   const [error, setError] = useState(null);
   const [clientSecret, setClientSecret] = useState(null);
 
+  const messageOnOutOfStockProducts = (products) => {
+    const removedProducts = products.map((product) => product.name).join(", ");
+    if (products.length === 1) {
+      return `${removedProducts} has been removed from your cart as it is out of stock.`;
+    } else {
+      return `${removedProducts} have been removed from your cart as they are out of stock.`;
+    }
+  };
+
+  const checkCart = async () => {
+    console.log("<-----CALLING CHECK CART--------->");
+    try {
+      const response = await axiosPrivate.put("/orders/cart/update-based-on-stock");
+      const { removedProducts, updatedCart } = response.data;
+
+      console.log("RESPONSE DATA FOR REMOVED PRODUCSTS", removedProducts);
+      console.log("UPDATED CART", updatedCart);
+
+      if (removedProducts.length) {
+        await dispatch({
+          type: "SET_CART",
+          cart: updatedCart,
+        });
+
+        console.log("UPDATED CART IN CONTEXT", cart);
+
+        toast(messageOnOutOfStockProducts(removedProducts), {
+          icon: "🙇🏻‍♀️",
+        });
+      }
+    } catch (err) {
+      toast.error(err.response.data.error);
+    }
+  };
   useEffect(() => {
     const showProfile = async () => {
       if (auth.user) {
@@ -46,6 +81,9 @@ function Payment() {
   }, [auth]);
 
   useEffect(() => {
+    console.log("----> IN USE EFFECT AS CART CHANGED");
+    console.log("------> current cart status", cart);
+
     const getClientSecret = async () => {
       try {
         const response = await axiosPrivate.post("/orders/payments/intent/new", {
@@ -56,8 +94,16 @@ function Payment() {
         toast.error(err.response.data.error);
       }
     };
+    const configurePayment = async () => {
+      try {
+        await checkCart();
+        await getClientSecret();
+      } catch (err) {
+        toast.error(err.response.data.error);
+      }
+    };
     if (cart.length) {
-      getClientSecret();
+      configurePayment();
     }
   }, [cart]);
 
@@ -79,6 +125,17 @@ function Payment() {
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
+    // check the cart again to make sure nothing is out of stock
+    console.log("---> CALLING CHECK CART FROM HANDLE SUBMIT");
+    await checkCart(cart);
+
+    console.log("---> CONTINUE WITH HANDLE SUBMIT<----");
+    console.log("CURRENT CART STATUS", cart);
+
+    if (cart.length === 0) {
+      console.log("ENTER CART LENGTH 0");
+      return;
+    }
     setProcessing(true);
     try {
       if (!clientSecret) {
@@ -91,7 +148,7 @@ function Payment() {
         },
       });
       if (stripeResponse.error) {
-        toast.error(`${stripeResponse.error.message} \nPlease try a different card.`);
+        toast.error(stripeResponse.error.message);
         setProcessing(false);
         return;
       }
@@ -105,6 +162,7 @@ function Payment() {
 
     try {
       // make api call to update order after payment succeeded and set cart
+      console.log("I am in a try block not supposed to be in");
       await axiosPrivate.patch("/orders/payments/confirm", {});
 
       await dispatch({

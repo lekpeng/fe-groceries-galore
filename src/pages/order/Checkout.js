@@ -11,27 +11,37 @@ import toast from "react-hot-toast";
 function Checkout() {
   const [{ cart }, dispatch] = useStateValue();
 
-  const stringOfRemovedProducts = (products) => {
-    return products.map((product) => product.name).join(", ");
+  const messageOnOutOfStockProducts = (products) => {
+    const removedProducts = products.map((product) => product.name).join(", ");
+    if (products.length === 1) {
+      return `${removedProducts} has been removed from your cart as it is out of stock.`;
+    } else {
+      return `${removedProducts} have been removed from your cart as they are out of stock.`;
+    }
   };
 
   useEffect(() => {
+    console.log("---> current cart status", cart);
+
     // remove items that are out of stock and if any, notify user
     const checkCart = async () => {
-      console.log("CART", cart);
+      console.log("<-----CALLING CHECK CART--------->");
       try {
         const response = await axiosPrivate.put("/orders/cart/update-based-on-stock");
-        const { removedProducts, cart } = response.data;
+        const { removedProducts, updatedCart } = response.data;
 
         console.log("RESPONSE DATA FOR REMOVED PRODUCSTS", removedProducts);
+        console.log("UPDATED CART", updatedCart);
 
         if (removedProducts.length) {
           await dispatch({
             type: "SET_CART",
-            cart: cart,
+            cart: updatedCart,
           });
 
-          toast(`${stringOfRemovedProducts(removedProducts)} have been removed from your cart as they are out of stock.`, {
+          console.log("UPDATED CART IN CONTEXT", cart);
+
+          toast(messageOnOutOfStockProducts(removedProducts), {
             icon: "🙇🏻‍♀️",
           });
         }
