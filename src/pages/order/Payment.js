@@ -125,17 +125,19 @@ function Payment() {
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
+    // current bug where submit function continues before the setting of cart in checkCart can complete. i.e. cart.length won't be 0 and function continues so user paying for stuff that have been removed
+
     // check the cart again to make sure nothing is out of stock
-    console.log("---> CALLING CHECK CART FROM HANDLE SUBMIT");
-    await checkCart(cart);
+    // console.log("---> CALLING CHECK CART FROM HANDLE SUBMIT");
+    // await checkCart(cart);
 
-    console.log("---> CONTINUE WITH HANDLE SUBMIT<----");
-    console.log("CURRENT CART STATUS", cart);
+    // console.log("---> CONTINUE WITH HANDLE SUBMIT.. <----");
+    // console.log("CURRENT CART STATUS", cart);
 
-    if (cart.length === 0) {
-      console.log("ENTER CART LENGTH 0");
-      return;
-    }
+    // if (cart.length === 0) {
+    //   console.log("ENTER CART LENGTH 0");
+    //   return;
+    // }
     setProcessing(true);
     try {
       if (!clientSecret) {
