@@ -15,6 +15,15 @@ function ProductCard({ product }) {
   const { auth, setAuth } = useAuth();
   const [{ cart }, dispatch] = useStateValue();
 
+  const displayCardAction =
+    product.quantity === 0 ? (
+      <Typography sx={{ fontSize: "14px", fontWeight: "bold", color: "red" }}>Out of Stock</Typography>
+    ) : auth?.user ? (
+      <ProductCounter product={product} customerProductQuantity={getProductQuantity(cart, product.id)}></ProductCounter>
+    ) : (
+      <></>
+    );
+
   return (
     <Card sx={{ border: 1, borderColor: "#c1bfbf96" }}>
       <Typography sx={{ fontSize: 8, textAlign: "right", pr: 2, pt: 2 }}>{product.ProductCategory?.name}</Typography>
@@ -37,14 +46,8 @@ function ProductCard({ product }) {
           {currency(product.price).format()}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
-        {auth?.user ? (
-          <ProductCounter
-            product={product}
-            customerProductQuantity={getProductQuantity(cart, product.id)}></ProductCounter>
-        ) : (
-          <></>
-        )}
+      <CardActions sx={{ justifyContent: "center" }} disableSpacing>
+        {displayCardAction}
       </CardActions>
     </Card>
   );

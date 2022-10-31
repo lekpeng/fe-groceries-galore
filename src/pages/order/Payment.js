@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useStateValue from "../../hooks/useStateValue";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
@@ -10,11 +10,11 @@ import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import currency from "currency.js";
 import { getCartAmountPayable } from "../../reducers/CartSelector";
-import axios from "../../apis/axios";
 
 function Payment() {
   const navigate = useNavigate();
   const [{ cart }, dispatch] = useStateValue();
+
   const { auth, setAuth } = useAuth();
   const [profile, setProfile] = useState({});
 
@@ -28,7 +28,7 @@ function Payment() {
   const [disabled, setDisabled] = useState(true);
 
   const [error, setError] = useState(null);
-  const [clientSecret, setClientSecret] = useState(true);
+  const [clientSecret, setClientSecret] = useState(null);
 
   useEffect(() => {
     const showProfile = async () => {
@@ -56,10 +56,21 @@ function Payment() {
         toast.error(err.response.data.error);
       }
     };
-    if (cart) {
+    if (cart.length) {
       getClientSecret();
     }
   }, [cart]);
+
+  if (!cart.length) {
+    return (
+      <>
+        <Typography variant="h5">There is nothing in your cart!</Typography>
+        <Button component={Link} to="/products">
+          Add some products
+        </Button>
+      </>
+    );
+  }
 
   const handleChange = (ev) => {
     setDisabled(ev.empty || ev.error);
@@ -70,6 +81,10 @@ function Payment() {
     ev.preventDefault();
     setProcessing(true);
     try {
+      if (!clientSecret) {
+        toast.error("There is something wrong with our server's connection to Stripe.");
+        return;
+      }
       const stripeResponse = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
@@ -84,16 +99,20 @@ function Payment() {
       setSucceeded(true);
       setError(null);
       setProcessing(false);
+    } catch (err) {
+      toast.error(err.message);
+    }
 
+    try {
       // make api call to update order after payment succeeded and set cart
-      const response = await axiosPrivate.patch("/orders/payments/confirm");
+      await axiosPrivate.patch("/orders/payments/confirm", {});
 
       await dispatch({
         type: "SET_CART",
         cart: [],
       });
 
-      // navigate("/orders");
+      navigate("/orders");
     } catch (err) {
       toast.error(err.response.data.error);
     }

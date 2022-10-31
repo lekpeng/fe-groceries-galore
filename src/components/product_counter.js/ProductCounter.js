@@ -17,10 +17,10 @@ function ProductCounter({ product, customerProductQuantity }) {
 
   const addItem = async (increment) => {
     // TODO: alert customer not to increase beyond product stock
-    const newCustomerProductQuantity = Math.min(
-      product.quantity,
-      customerProductQuantity + increment
-    );
+    if (customerProductQuantity + increment > product.quantity) {
+      toast.error(`Only ${product.quantity} left in stock!`);
+    }
+    const newCustomerProductQuantity = Math.min(product.quantity, customerProductQuantity + increment);
 
     try {
       const cartResponse = await axiosPrivate.post("/orders/cart/add-items", {
