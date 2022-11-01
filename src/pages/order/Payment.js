@@ -170,7 +170,7 @@ function Payment() {
         type: "SET_CART",
         cart: [],
       });
-
+      toast.success("Payment successful!");
       navigate("/orders");
     } catch (err) {
       toast.error(err.response.data.error);
