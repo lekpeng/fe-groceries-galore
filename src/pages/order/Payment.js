@@ -9,7 +9,7 @@ import userApis from "../../apis/user";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import currency from "currency.js";
-import { getCartAmountPayable } from "../../reducers/CartSelector";
+import { getCartAmountPayable } from "../../selectors/CartSelector";
 import SavedCards from "./payment_components/SavedCards";
 import ToggleNewPaymentMethod from "./payment_components/ToggleNewPaymentMethod";
 
@@ -229,7 +229,7 @@ function Payment() {
             <form style={{ margin: "auto", maxWidth: "400px", marginTop: "20px" }} onSubmit={handleSubmit}>
               <CardElement onChange={handleChange} />
 
-              <Box>
+              <Box sx={{ mt: 4 }}>
                 {error && (
                   <Typography fontSize="14px" color="red" alignText="left">
                     {error}
@@ -243,7 +243,7 @@ function Payment() {
             </form>
           ) : (
             <Box>
-              <SavedCards />
+              <SavedCards paymentMethods={pastPaymentMethods} />
             </Box>
           )}
         </Box>

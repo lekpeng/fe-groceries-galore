@@ -8,7 +8,7 @@ import userApis from "../../apis/user";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useStateValue from "../../hooks/useStateValue";
-import { getCartQuantity } from "../../reducers/CartSelector";
+import { getCartQuantity } from "../../selectors/CartSelector";
 
 const Header = () => {
   // const isMatch = useMediaQuery(theme.breakpoints.down("md"));
@@ -69,60 +69,41 @@ const Header = () => {
         </Toolbar>
         <SearchBar />
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Button
-            component={Link}
-            to="/merchants"
-            sx={{ my: 2, color: "white", display: "block", textTransform: "none" }}>
+          <Button component={Link} to="/merchants" sx={{ my: 2, color: "white", display: "block", textTransform: "none" }}>
             <Typography>Our</Typography>
             <Typography>Merchants</Typography>
           </Button>
           {isLoggedIn && auth?.user?.userType === "Customer" ? (
             <>
-              <Button
-                component={Link}
-                to="/orders"
-                sx={{ my: 2, color: "white", display: "block", textTransform: "none" }}>
+              <Button component={Link} to="/orders" sx={{ my: 2, color: "white", display: "block", textTransform: "none" }}>
                 <Typography>Orders</Typography>
                 <Typography>& Returns</Typography>
               </Button>
 
-              <Button
-                component={Link}
-                to="/checkout"
-                sx={{ my: 2, color: "white", display: "block", textTransform: "none" }}>
+              <Button component={Link} to="/checkout" sx={{ my: 2, color: "white", display: "block", textTransform: "none" }}>
                 <ShoppingCartIcon fontSize={"medium"} />
                 <Typography>{getCartQuantity(cart)}</Typography>
               </Button>
-              <Button
-                onClick={handleLogout}
-                sx={{ my: 2, color: "white", display: "block", textTransform: "none" }}>
+              <Button onClick={handleLogout} sx={{ my: 2, color: "white", display: "block", textTransform: "none" }}>
                 <Typography>{`Hello ${profile?.name},`}</Typography>
                 <Typography>Logout</Typography>
               </Button>
             </>
           ) : isLoggedIn && auth?.user?.userType === "Merchant" ? (
             <>
-              <Button
-                component={Link}
-                to="/orders"
-                sx={{ my: 2, color: "white", display: "block", textTransform: "none" }}>
+              <Button component={Link} to="/orders" sx={{ my: 2, color: "white", display: "block", textTransform: "none" }}>
                 <Typography>Orders</Typography>
                 <Typography>& Returns</Typography>
               </Button>
 
-              <Button
-                onClick={handleLogout}
-                sx={{ my: 2, color: "white", display: "block", textTransform: "none" }}>
+              <Button onClick={handleLogout} sx={{ my: 2, color: "white", display: "block", textTransform: "none" }}>
                 <Typography>{`Hello ${profile?.name},`}</Typography>
                 <Typography>Logout</Typography>
               </Button>
             </>
           ) : (
             <>
-              <Button
-                component={Link}
-                to="/login"
-                sx={{ my: 2, color: "white", display: "block", textTransform: "none" }}>
+              <Button component={Link} to="/login" sx={{ my: 2, color: "white", display: "block", textTransform: "none" }}>
                 <Typography>Hello Guest,</Typography>
                 <Typography>Login</Typography>
               </Button>

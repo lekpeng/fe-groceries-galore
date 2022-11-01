@@ -5,7 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import ColoredAvatar from "../../../components/avatar/ColoredAvatar";
-import { getProductQuantity } from "../../../reducers/CartSelector";
+import { getProductQuantity } from "../../../selectors/CartSelector";
 import useStateValue from "../../../hooks/useStateValue";
 import ProductCounter from "../../../components/product_counter.js/ProductCounter";
 import useAuth from "../../../hooks/useAuth";

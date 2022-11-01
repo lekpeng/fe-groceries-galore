@@ -1,12 +1,13 @@
 import { Box } from "@mui/material";
 import CreditCard from "./CreditCard";
 
-function SavedCards() {
+function SavedCards({ paymentMethods }) {
+  console.log("PAYMENT METHODS", paymentMethods);
   return (
     <Box display="flex" flex-wrap="wrap">
-      <CreditCard brand="Amex" />
-      <CreditCard brand="Visa" />
-      <CreditCard brand="Mastercard" />
+      {paymentMethods?.map((method) => (
+        <CreditCard method={method} brand={method?.card?.brand} />
+      ))}
     </Box>
   );
 }

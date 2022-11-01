@@ -1,12 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import useStateValue from "../../../hooks/useStateValue";
 import { Box, Button, Typography } from "@mui/material";
-import {
-  getOrderAmountPayable,
-  getOrderQuantity,
-  getCartAmountPayable,
-  getCartQuantity,
-} from "../../../reducers/CartSelector";
+import { getOrderAmountPayable, getOrderQuantity, getCartAmountPayable, getCartQuantity } from "../../../selectors/CartSelector";
 import currency from "currency.js";
 import { useState } from "react";
 
