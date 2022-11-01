@@ -8,10 +8,10 @@ function ToggleNewPaymentMethod({ setNewPaymentMethod }) {
   const switchElm = useRef();
   const handleChange = (e) => {
     if (e.target.checked) {
-      labelElm.current.innerText = "Existing card";
+      labelElm.current.innerText = "Use an existing card";
       setNewPaymentMethod(false);
     } else {
-      labelElm.current.innerText = "New card";
+      labelElm.current.innerText = "Use a new card";
       setNewPaymentMethod(true);
     }
   };
@@ -19,7 +19,7 @@ function ToggleNewPaymentMethod({ setNewPaymentMethod }) {
   return (
     <Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
       <Switch className="toggleUserType" ref={switchElm} onChange={handleChange} />
-      <Typography ref={labelElm}>New card</Typography>
+      <Typography ref={labelElm}>Use a new card</Typography>
     </Stack>
   );
 }

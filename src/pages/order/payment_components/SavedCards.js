@@ -4,7 +4,7 @@ import CreditCard from "./CreditCard";
 function SavedCards({ paymentMethods }) {
   console.log("PAYMENT METHODS", paymentMethods);
   return (
-    <Box display="flex" flex-wrap="wrap">
+    <Box display="flex" flex-wrap="wrap" justifyContent="space-evenly">
       {paymentMethods?.map((method) => (
         <CreditCard method={method} brand={method?.card?.brand} />
       ))}

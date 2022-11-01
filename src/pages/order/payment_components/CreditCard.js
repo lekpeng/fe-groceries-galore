@@ -4,12 +4,15 @@ import Visa from "../brand_credit_card_components/Visa";
 import "./CreditCard.css";
 
 function CreditCard({ brand, method }) {
+  let card;
   if (brand === "amex") {
-    return <Amex method={method} />;
+    card = <Amex method={method} />;
   } else if (brand === "visa") {
-    return <Visa method={method} />;
+    card = <Visa method={method} />;
+  } else {
+    card = <Mastercard method={method} />;
   }
-  return <Mastercard method={method} />;
+  return <div onClick={() => console.log("HO")}>{card}</div>;
 }
 
 export default CreditCard;

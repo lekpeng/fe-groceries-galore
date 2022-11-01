@@ -10,7 +10,7 @@
   position: relative;
   transition: all 0.4s ease;
   box-shadow: 0 2px 4px 0 #cfd7df;
-  min-height: 60px;
+  min-height: 100px;
   padding: 13px;
   background: #1a1b1c;
   color: #efefef;
@@ -26,6 +26,7 @@
 .credit-card-last4 {
   font-family: "PT Mono", Helvetica, sans-serif;
   font-size: 24px;
+  margin-top: 10px;
 }
 
 .credit-card-last4:before {
