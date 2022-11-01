@@ -10,6 +10,8 @@ import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import currency from "currency.js";
 import { getCartAmountPayable } from "../../reducers/CartSelector";
+import SavedCards from "./payment_components/SavedCards";
+import ToggleNewPaymentMethod from "./payment_components/ToggleNewPaymentMethod";
 
 function Payment() {
   const navigate = useNavigate();
@@ -29,6 +31,8 @@ function Payment() {
 
   const [error, setError] = useState(null);
   const [clientSecret, setClientSecret] = useState(null);
+  const [newPaymentMethod, setNewPaymentMethod] = useState(true);
+  const [pastPaymentMethods, setPastPaymentMethods] = useState([]);
 
   const messageOnOutOfStockProducts = (products) => {
     const removedProducts = products.map((product) => product.name).join(", ");
@@ -69,9 +73,9 @@ function Payment() {
       if (auth.user) {
         try {
           const response = await userApis.showProfile(auth.user);
-          console.log("RESPONSE PROFILE IN PAYMENT", response.data.userProfile);
           setProfile(response.data.userProfile);
         } catch (err) {
+          console.log("ERR SHOW PROFILE", err);
           toast.error(err.response.data.error);
         }
       }
@@ -81,16 +85,16 @@ function Payment() {
   }, [auth]);
 
   useEffect(() => {
-    console.log("----> IN USE EFFECT AS CART CHANGED");
-    console.log("------> current cart status", cart);
-
     const getClientSecret = async () => {
       try {
         const response = await axiosPrivate.post("/orders/payments/intent/new", {
           total: currency(getCartAmountPayable(cart)).multiply(100).value,
+          orderIds: cart.map((order) => order.id),
         });
         setClientSecret(response.data.clientSecret);
+        setPastPaymentMethods(response.data.paymentMethods);
       } catch (err) {
+        console.log("ERR GET CLIENT SECRET", err);
         toast.error(err.response.data.error);
       }
     };
@@ -99,6 +103,7 @@ function Payment() {
         await checkCart();
         await getClientSecret();
       } catch (err) {
+        console.log("ERR CLIENT SECRET", err);
         toast.error(err.response.data.error);
       }
     };
@@ -159,6 +164,7 @@ function Payment() {
       setError(null);
       setProcessing(false);
     } catch (err) {
+      console.log("ERR HANDLE SUBMIT", err);
       toast.error(err.message);
     }
 
@@ -173,6 +179,7 @@ function Payment() {
       toast.success("Payment successful!");
       navigate("/orders");
     } catch (err) {
+      console.log("ERR UPDATE ORDER AFTER PAYMENT", err);
       toast.error(err.response.data.error);
     }
   };
@@ -210,24 +217,35 @@ function Payment() {
           </Typography>
         </Box>
         <Box sx={{ flex: 0.8 }}>
-          <form style={{ maxWidth: "400px" }} onSubmit={handleSubmit}>
-            <CardElement onChange={handleChange} />
+          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mb: 5 }}>
+            <Typography sx={{ mr: 10 }} fontWeight="bold" textAlign="left">
+              Total: {currency(getCartAmountPayable(cart)).format()}
+            </Typography>
 
+            <ToggleNewPaymentMethod setNewPaymentMethod={setNewPaymentMethod} />
+          </Box>
+
+          {newPaymentMethod ? (
+            <form style={{ margin: "auto", maxWidth: "400px", marginTop: "20px" }} onSubmit={handleSubmit}>
+              <CardElement onChange={handleChange} />
+
+              <Box>
+                {error && (
+                  <Typography fontSize="14px" color="red" alignText="left">
+                    {error}
+                  </Typography>
+                )}
+
+                <Button type="submit" disabled={processing || invalid || succeeded}>
+                  <span>{processing ? "Processing" : "Make payment"}</span>
+                </Button>
+              </Box>
+            </form>
+          ) : (
             <Box>
-              <Typography sx={{ mt: 2, mb: 2 }} fontWeight="bold" textAlign="left">
-                Total: {currency(getCartAmountPayable(cart)).format()}
-              </Typography>
-              {error && (
-                <Typography fontSize="14px" color="red" alignText="left">
-                  {error}
-                </Typography>
-              )}
-
-              <Button type="submit" disabled={processing || invalid || succeeded}>
-                <span>{processing ? "Processing" : "Make payment"}</span>
-              </Button>
+              <SavedCards />
             </Box>
-          </form>
+          )}
         </Box>
       </Box>
     </>
