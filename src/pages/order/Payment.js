@@ -10,7 +10,6 @@ import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import currency from "currency.js";
 import { getCartAmountPayable } from "../../reducers/CartSelector";
-import { TrySharp } from "@mui/icons-material";
 
 function Payment() {
   const navigate = useNavigate();
@@ -26,7 +25,7 @@ function Payment() {
 
   const [succeeded, setSucceeded] = useState(false);
   const [processing, setProcessing] = useState(false);
-  const [disabled, setDisabled] = useState(true);
+  const [invalid, setInvalid] = useState(true);
 
   const [error, setError] = useState(null);
   const [clientSecret, setClientSecret] = useState(null);
@@ -70,6 +69,7 @@ function Payment() {
       if (auth.user) {
         try {
           const response = await userApis.showProfile(auth.user);
+          console.log("RESPONSE PROFILE IN PAYMENT", response.data.userProfile);
           setProfile(response.data.userProfile);
         } catch (err) {
           toast.error(err.response.data.error);
@@ -119,7 +119,7 @@ function Payment() {
   }
 
   const handleChange = (ev) => {
-    setDisabled(ev.empty || ev.error);
+    setInvalid(ev.empty || ev.error);
     setError(ev.error ? ev.error.message : "");
   };
 
@@ -164,7 +164,6 @@ function Payment() {
 
     try {
       // make api call to update order after payment succeeded and set cart
-      console.log("I am in a try block not supposed to be in");
       await axiosPrivate.patch("/orders/payments/confirm", {});
 
       await dispatch({
@@ -224,7 +223,7 @@ function Payment() {
                 </Typography>
               )}
 
-              <Button type="submit" disabled={processing || disabled || succeeded}>
+              <Button type="submit" disabled={processing || invalid || succeeded}>
                 <span>{processing ? "Processing" : "Make payment"}</span>
               </Button>
             </Box>
