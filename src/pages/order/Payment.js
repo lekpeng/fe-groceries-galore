@@ -49,7 +49,7 @@ function Payment() {
       console.log("UPDATED CART", updatedCart);
 
       if (removedProducts.length) {
-        await dispatch({
+        dispatch({
           type: "SET_CART",
           cart: updatedCart,
         });
@@ -166,7 +166,7 @@ function Payment() {
       // make api call to update order after payment succeeded and set cart
       await axiosPrivate.patch("/orders/payments/confirm", {});
 
-      await dispatch({
+      dispatch({
         type: "SET_CART",
         cart: [],
       });

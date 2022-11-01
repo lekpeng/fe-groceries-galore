@@ -28,7 +28,7 @@ function ProductCounter({ product, customerProductQuantity }) {
         customerProductQuantity: newCustomerProductQuantity,
       });
       console.log("ADD CART RESPONSE", cartResponse);
-      await dispatch({
+      dispatch({
         type: "SET_CART",
         cart: cartResponse.data.orders,
       });
@@ -47,7 +47,7 @@ function ProductCounter({ product, customerProductQuantity }) {
       });
 
       console.log("REMOVE CART RESPONSE", cartResponse);
-      await dispatch({
+      dispatch({
         type: "SET_CART",
         cart: cartResponse.data.orders,
       });

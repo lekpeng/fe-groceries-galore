@@ -32,7 +32,7 @@ function Login() {
   useEffect(() => {
     const initializeCart = async () => {
       const cartResponse = await axiosPrivate.get("/orders/cart");
-      await dispatch({
+      dispatch({
         type: "SET_CART",
         cart: cartResponse.data.orders,
       });

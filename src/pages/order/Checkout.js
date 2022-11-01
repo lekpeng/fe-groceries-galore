@@ -34,7 +34,7 @@ function Checkout() {
         console.log("UPDATED CART", updatedCart);
 
         if (removedProducts.length) {
-          await dispatch({
+          dispatch({
             type: "SET_CART",
             cart: updatedCart,
           });

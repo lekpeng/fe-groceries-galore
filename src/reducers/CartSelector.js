@@ -1,3 +1,5 @@
+import currency from "currency.js";
+
 export const getProductQuantity = (cart, productId) => {
   for (const order of cart) {
     for (const orderDetail of order.OrderDetails) {
@@ -14,11 +16,15 @@ export const getOrderQuantity = (order) => {
 };
 
 export const getOrderAmountPayable = (order) => {
-  return order?.OrderDetails?.reduce((total, orderDetail) => orderDetail.productPrice * orderDetail.productQuantity + total, 0);
+  return order?.OrderDetails?.reduce(
+    (total, orderDetail) => currency(orderDetail.productPrice).multiply(orderDetail.productQuantity).add(total),
+    0
+  );
 };
 
 export const getCartQuantity = (cart) => {
   return cart?.reduce((total, order) => total + getOrderQuantity(order), 0);
 };
 
-export const getCartAmountPayable = (cart) => cart?.reduce((total, order) => total + getOrderAmountPayable(order), 0);
+export const getCartAmountPayable = (cart) =>
+  cart?.reduce((total, order) => currency(total).add(getOrderAmountPayable(order)), 0);

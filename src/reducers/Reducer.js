@@ -10,6 +10,10 @@ const reducer = (state, action) => {
       return { ...state, cart: action.cart };
     }
 
+    case "SET_LOADING": {
+      return { ...state, isLoading: action.isLoading };
+    }
+
     default:
       return true;
   }
