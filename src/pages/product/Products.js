@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ProductCard from "./product_components/ProductCard";
 import productApis from "../../apis/product";
 import { toast } from "react-hot-toast";
-import { Grid, Skeleton } from "@mui/material";
+import { Grid } from "@mui/material";
 import ProductSkeleton from "./product_components/ProductSkeleton";
 function Products() {
   const [products, setProducts] = useState([]);
@@ -16,9 +16,7 @@ function Products() {
         toast.error(err.response.data.error);
       }
     };
-    setTimeout(() => {
-      indexProducts();
-    }, 2000);
+    indexProducts();
   }, []);
   const arrOf10 = new Array(12).fill();
   return (
