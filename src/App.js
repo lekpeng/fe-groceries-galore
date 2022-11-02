@@ -16,6 +16,7 @@ import Checkout from "./pages/order/Checkout";
 import Payment from "./pages/order/Payment";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import Order from "./pages/order/Order";
 
 const promise = loadStripe(
   "pk_test_51LyWiyHrSLP2bvAc3Zz5TtGUCLz2V5XEbpVA6R8ENz4SYm5vulUqAXQ8733IFCAWaE4rJ7QinE7YzrglwFMVWeaa0053b2ovyM"
@@ -41,6 +42,7 @@ function App() {
           {/* protected routes: customer and merchant */}
           <Route element={<RequireAuth allowedUserTypes={["Customer", "Merchant"]} />}>
             <Route path="orders" element={<Orders />} />
+            <Route path="orders/:orderId" element={<Order />} />
           </Route>
 
           {/* protected routes: customer only */}

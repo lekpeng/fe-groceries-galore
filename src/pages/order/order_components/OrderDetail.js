@@ -14,7 +14,7 @@ function OrderDetail({ orderDetail }) {
           sx={{ pt: 0, pr: 2, pl: 2, pb: 2 }}
           titleTypographyProps={{
             fontWeight: "bold",
-            fontSize: 13,
+            fontSize: 14,
           }}
           subheaderTypographyProps={{
             fontSize: 11,

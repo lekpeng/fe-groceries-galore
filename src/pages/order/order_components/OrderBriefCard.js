@@ -1,12 +1,13 @@
-import { Box, Card, CardHeader } from "@mui/material";
+import { Box, Card, CardHeader, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 import OrderDetail from "./OrderDetail";
 
-function OrderCard({ order }) {
+function OrderBriefCard({ order }) {
   return (
     <Box>
-      <h3>
+      <Typography component={Link} to={`/orders/${order.id}`}>
         Order #{order?.id}: {order?.Customer?.name}
-      </h3>
+      </Typography>
       {order?.OrderDetails.map((orderDetail) => (
         <OrderDetail key={orderDetail.id} orderDetail={orderDetail} />
       ))}
@@ -14,4 +15,4 @@ function OrderCard({ order }) {
   );
 }
 
-export default OrderCard;
+export default OrderBriefCard;

@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import OrderCard from "./order_components/OrderCard";
+import OrderBriefCard from "./order_components/OrderBriefCard";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -24,7 +24,7 @@ function Orders() {
       <Grid container spacing={4}>
         {orders?.map((order) => (
           <Grid key={order.id} item xs={4}>
-            <OrderCard key={order.id} order={order} />
+            <OrderBriefCard key={order.id} order={order} />
           </Grid>
         ))}
       </Grid>
