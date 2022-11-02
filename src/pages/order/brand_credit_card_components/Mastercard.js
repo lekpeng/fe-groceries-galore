@@ -3,7 +3,7 @@ import CardDetails from "./CardDetails";
 
 function Mastercard({ method }) {
   return (
-    <div class="credit-card mastercard selectable">
+    <div className="credit-card mastercard selectable">
       <CardDetails method={method} />
     </div>
   );

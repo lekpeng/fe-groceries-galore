@@ -1,14 +1,13 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
-import CreditCard from "./CreditCard";
-import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
-import toast from "react-hot-toast";
-import useStateValue from "../../../hooks/useStateValue";
+import { Box, Button, Typography } from "@mui/material";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+import useStateValue from "../../../hooks/useStateValue";
 import ConfirmPaymentDialog from "./ConfirmPaymentDialog";
 
-function SavedCards({ clientSecret, paymentMethods }) {
+function NewCardForm({ clientSecret }) {
   const navigate = useNavigate();
   const [{ cart }, dispatch] = useStateValue();
   const stripe = useStripe();
@@ -17,16 +16,21 @@ function SavedCards({ clientSecret, paymentMethods }) {
 
   const [succeeded, setSucceeded] = useState(false);
   const [processing, setProcessing] = useState(false);
+  const [invalid, setInvalid] = useState(true);
 
   const [error, setError] = useState(null);
 
-  const defaultCardsSelectionStatuses = new Array(paymentMethods.length - 1).fill(false);
-  defaultCardsSelectionStatuses.unshift(true);
-
-  const [cardsSelectionStatuses, setCardsSelectionStatuses] = useState(defaultCardsSelectionStatuses);
-
   const [confirmCard, setConfirmCard] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+
+  const handleChange = (ev) => {
+    setInvalid(ev.empty || ev.error);
+    setError(ev.error ? ev.error.message : "");
+  };
+  const handleSubmit = async (ev) => {
+    ev.preventDefault();
+    setOpenDialog(true);
+  };
 
   useEffect(() => {
     const makePayment = async () => {
@@ -36,9 +40,10 @@ function SavedCards({ clientSecret, paymentMethods }) {
           toast.error("There is something wrong with our server's connection to Stripe.");
           return;
         }
-        const idx = cardsSelectionStatuses.findIndex((elm) => elm === true);
         const stripeResponse = await stripe.confirmCardPayment(clientSecret, {
-          payment_method: paymentMethods[idx]?.id,
+          payment_method: {
+            card: elements.getElement(CardElement),
+          },
         });
         if (stripeResponse.error) {
           toast.error(stripeResponse.error.message);
@@ -74,49 +79,26 @@ function SavedCards({ clientSecret, paymentMethods }) {
     }
   }, [confirmCard]);
 
-  const handleSubmit = async (ev) => {
-    ev.preventDefault();
-    setOpenDialog(true);
-  };
   return (
     <>
-      <Grid container rowSpacing={2} colSpacing={4}>
-        {paymentMethods?.map((method, idx) => (
-          <Grid item xs={4}>
-            <CreditCard
-              style={{
-                width: "fit-content",
-                blockSize: "fit-content",
-                transform: cardsSelectionStatuses[idx] === true ? "scale(1.1)" : "none",
-                boxShadow:
-                  cardsSelectionStatuses[idx] === true
-                    ? "0 10px 20px rgba(0, 0, 0, 0.3), 0 12px 12px rgba(0, 0, 0, 0.3)"
-                    : "none",
-              }}
-              key={method.id}
-              idx={idx}
-              method={method}
-              cardsSelectionStatuses={cardsSelectionStatuses}
-              setCardsSelectionStatuses={setCardsSelectionStatuses}
-            />
-          </Grid>
-        ))}
-      </Grid>
-      <Box sx={{ mt: 4 }}>
-        {error && (
-          <Typography fontSize="14px" color="red" alignText="left">
-            {error}
-          </Typography>
-        )}
-        <form onSubmit={handleSubmit}>
-          <Button type="submit" disabled={processing || succeeded}>
+      <form style={{ margin: "auto", maxWidth: "400px", marginTop: "20px" }} onSubmit={handleSubmit}>
+        <CardElement onChange={handleChange} />
+
+        <Box sx={{ mt: 4 }}>
+          {error && (
+            <Typography fontSize="14px" color="red" alignText="left">
+              {error}
+            </Typography>
+          )}
+
+          <Button type="submit" disabled={processing || invalid || succeeded}>
             <span>{processing ? "Processing" : "Make payment"}</span>
           </Button>
-        </form>
-      </Box>
+        </Box>
+      </form>
       <ConfirmPaymentDialog openDialog={openDialog} setOpenDialog={setOpenDialog} setConfirmCard={setConfirmCard} />
     </>
   );
 }
 
-export default SavedCards;
+export default NewCardForm;

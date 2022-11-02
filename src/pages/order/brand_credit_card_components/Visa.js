@@ -3,7 +3,7 @@ import CardDetails from "./CardDetails";
 
 function Visa({ method }) {
   return (
-    <div class="credit-card visa selectable">
+    <div className="credit-card visa selectable">
       <CardDetails method={method} />
     </div>
   );

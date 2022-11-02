@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useStateValue from "../../hooks/useStateValue";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import CheckoutOrderCard from "./checkout_components/CheckoutOrderCard";
 import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -12,9 +11,9 @@ import currency from "currency.js";
 import { getCartAmountPayable } from "../../selectors/CartSelector";
 import SavedCards from "./payment_components/SavedCards";
 import ToggleNewPaymentMethod from "./payment_components/ToggleNewPaymentMethod";
+import NewCardForm from "./payment_components/NewCardForm";
 
 function Payment() {
-  const navigate = useNavigate();
   const [{ cart }, dispatch] = useStateValue();
 
   const { auth, setAuth } = useAuth();
@@ -22,14 +21,6 @@ function Payment() {
 
   const axiosPrivate = useAxiosPrivate();
 
-  const stripe = useStripe();
-  const elements = useElements();
-
-  const [succeeded, setSucceeded] = useState(false);
-  const [processing, setProcessing] = useState(false);
-  const [invalid, setInvalid] = useState(true);
-
-  const [error, setError] = useState(null);
   const [clientSecret, setClientSecret] = useState(null);
   const [newPaymentMethod, setNewPaymentMethod] = useState(true);
   const [pastPaymentMethods, setPastPaymentMethods] = useState([]);
@@ -122,55 +113,6 @@ function Payment() {
       </>
     );
   }
-
-  const handleChange = (ev) => {
-    setInvalid(ev.empty || ev.error);
-    setError(ev.error ? ev.error.message : "");
-  };
-
-  const handleSubmit = async (ev) => {
-    ev.preventDefault();
-    setProcessing(true);
-    try {
-      if (!clientSecret) {
-        toast.error("There is something wrong with our server's connection to Stripe.");
-        return;
-      }
-      const stripeResponse = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardElement),
-        },
-      });
-      if (stripeResponse.error) {
-        toast.error(stripeResponse.error.message);
-        setProcessing(false);
-        return;
-      }
-
-      setSucceeded(true);
-      setError(null);
-      setProcessing(false);
-    } catch (err) {
-      console.log("ERR HANDLE SUBMIT", err);
-      toast.error(err.message);
-    }
-
-    try {
-      // make api call to update order after payment succeeded and set cart
-      await axiosPrivate.patch("/orders/payments/confirm", {});
-
-      dispatch({
-        type: "SET_CART",
-        cart: [],
-      });
-      toast.success("Payment successful!");
-      navigate("/orders");
-    } catch (err) {
-      console.log("ERR UPDATE ORDER AFTER PAYMENT", err);
-      toast.error(err.response.data.error);
-    }
-  };
-
   return (
     <>
       <Box sx={{ display: "flex", p: 3, borderBottom: "1px solid lightgray" }}>
@@ -213,24 +155,11 @@ function Payment() {
           </Box>
 
           {newPaymentMethod ? (
-            <form style={{ margin: "auto", maxWidth: "400px", marginTop: "20px" }} onSubmit={handleSubmit}>
-              <CardElement onChange={handleChange} />
-
-              <Box sx={{ mt: 4 }}>
-                {error && (
-                  <Typography fontSize="14px" color="red" alignText="left">
-                    {error}
-                  </Typography>
-                )}
-
-                <Button type="submit" disabled={processing || invalid || succeeded}>
-                  <span>{processing ? "Processing" : "Make payment"}</span>
-                </Button>
-              </Box>
-            </form>
+            <NewCardForm clientSecret={clientSecret} />
           ) : (
             <Box>
-              <SavedCards paymentMethods={pastPaymentMethods} />
+              <Typography sx={{ mb: 2 }}>Select a card</Typography>
+              <SavedCards clientSecret={clientSecret} paymentMethods={pastPaymentMethods} />
             </Box>
           )}
         </Box>

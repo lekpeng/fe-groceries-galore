@@ -2,15 +2,13 @@
 
 .credit-card {
   margin: auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
   border-radius: 7px;
   width: 95%;
   max-width: 250px;
   position: relative;
   transition: all 0.4s ease;
   box-shadow: 0 2px 4px 0 #cfd7df;
-  min-height: 100px;
+  min-height: 60px;
   padding: 13px;
   background: #1a1b1c;
   color: #efefef;
@@ -18,7 +16,7 @@
 
 .credit-card.selectable:hover {
   cursor: pointer;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 12px 12px rgba(0, 0, 0, 0.3);
 }
 
 /*  NUMBER FORMATTING */
@@ -26,7 +24,6 @@
 .credit-card-last4 {
   font-family: "PT Mono", Helvetica, sans-serif;
   font-size: 24px;
-  margin-top: 10px;
 }
 
 .credit-card-last4:before {
