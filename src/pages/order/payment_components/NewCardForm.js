@@ -55,7 +55,6 @@ function NewCardForm({ clientSecret }) {
         setError(null);
         setProcessing(false);
       } catch (err) {
-        console.log("ERR HANDLE SUBMIT", err);
         toast.error(err.message);
       }
 
@@ -70,7 +69,6 @@ function NewCardForm({ clientSecret }) {
         toast.success("Payment successful!");
         navigate("/orders");
       } catch (err) {
-        console.log("ERR UPDATE ORDER AFTER PAYMENT", err);
         toast.error(err.response.data.error);
       }
     };

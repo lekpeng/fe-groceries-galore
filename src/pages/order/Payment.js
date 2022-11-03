@@ -35,21 +35,15 @@ function Payment() {
   };
 
   const checkCart = async () => {
-    console.log("<-----CALLING CHECK CART--------->");
     try {
       const response = await axiosPrivate.put("/orders/cart/update-based-on-stock");
       const { removedProducts, updatedCart } = response.data;
-
-      console.log("RESPONSE DATA FOR REMOVED PRODUCSTS", removedProducts);
-      console.log("UPDATED CART", updatedCart);
 
       if (removedProducts.length) {
         dispatch({
           type: "SET_CART",
           cart: updatedCart,
         });
-
-        console.log("UPDATED CART IN CONTEXT", cart);
 
         toast(messageOnOutOfStockProducts(removedProducts), {
           icon: "🙇🏻‍♀️",
@@ -66,7 +60,6 @@ function Payment() {
           const response = await userApis.showProfile(auth.user);
           setProfile(response.data.userProfile);
         } catch (err) {
-          console.log("ERR SHOW PROFILE", err);
           toast.error(err.response.data.error);
         }
       }
@@ -85,7 +78,6 @@ function Payment() {
         setClientSecret(response.data.clientSecret);
         setPastPaymentMethods(response.data.paymentMethods);
       } catch (err) {
-        console.log("ERR GET CLIENT SECRET", err);
         toast.error(err.response.data.error);
       }
     };
@@ -94,7 +86,6 @@ function Payment() {
         await checkCart();
         await getClientSecret();
       } catch (err) {
-        console.log("ERR CLIENT SECRET", err);
         toast.error(err.response.data.error);
       }
     };

@@ -21,25 +21,17 @@ function Checkout() {
   };
 
   useEffect(() => {
-    console.log("---> current cart status", cart);
-
     // remove items that are out of stock and if any, notify user
     const checkCart = async () => {
-      console.log("<-----CALLING CHECK CART--------->");
       try {
         const response = await axiosPrivate.put("/orders/cart/update-based-on-stock");
         const { removedProducts, updatedCart } = response.data;
-
-        console.log("RESPONSE DATA FOR REMOVED PRODUCSTS", removedProducts);
-        console.log("UPDATED CART", updatedCart);
 
         if (removedProducts.length) {
           dispatch({
             type: "SET_CART",
             cart: updatedCart,
           });
-
-          console.log("UPDATED CART IN CONTEXT", cart);
 
           toast(messageOnOutOfStockProducts(removedProducts), {
             icon: "🙇🏻‍♀️",

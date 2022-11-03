@@ -9,7 +9,6 @@ function CreditCard({ style, idx, method, cardsSelectionStatuses, setCardsSelect
 
   const handleClick = () => {
     const prevIdxSelected = cardsSelectionStatuses.findIndex((elm) => elm === true);
-    console.log("PREV IDX", prevIdxSelected);
     setCardsSelectionStatuses((prev) => {
       const curr = [...prev];
       if (curr[idx] === true) {
