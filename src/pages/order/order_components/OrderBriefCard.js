@@ -8,8 +8,11 @@ import UpdateOrderStatus from "./UpdateOrderStatus";
 function OrderBriefCard({ order }) {
   const { auth } = useAuth();
 
+  console.log("ORDER", order);
+
   return (
     <Box>
+      <Typography>{order?.createdAt}</Typography>
       <Typography component={Link} to={`/orders/${order.id}`}>
         {auth?.user.userType === "Customer"
           ? `Order #${order?.id}: ${order?.Merchant?.name}`
