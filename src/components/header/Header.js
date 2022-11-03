@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { AppBar, Box, Toolbar, Typography, Button } from "@mui/material";
 import logo from "../../images/logo.png";
-import SearchBar from "./SearchBar";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import useAuth from "../../hooks/useAuth";
 import userApis from "../../apis/user";
@@ -9,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useStateValue from "../../hooks/useStateValue";
 import { getCartQuantity } from "../../selectors/CartSelector";
-import SearchBarNew from "./SearchBarNew";
+import SearchBar from "./SearchBar";
 
 const Header = () => {
   // const isMatch = useMediaQuery(theme.breakpoints.down("md"));
@@ -69,7 +68,6 @@ const Header = () => {
           </Typography>
         </Toolbar>
         <SearchBar />
-        <SearchBarNew />
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Button component={Link} to="/merchants" sx={{ my: 2, color: "white", display: "block", textTransform: "none" }}>
             <Typography>Our</Typography>
