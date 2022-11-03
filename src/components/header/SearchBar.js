@@ -7,6 +7,7 @@ import { useCallback } from "react";
 import { useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
 
 const INTERVAL = 500;
 
@@ -14,7 +15,7 @@ function SearchBar() {
   const [options, setOptions] = useState([]);
   const [inputVal, setInputVal] = useState("");
   const previousController = useRef();
-
+  const navigate = useNavigate();
   const getProducts = async (query) => {
     if (previousController.current) {
       previousController.current.abort();
@@ -32,16 +33,22 @@ function SearchBar() {
   };
 
   useEffect(() => {
-    console.log("input val", inputVal);
     if (inputVal) {
       debouncedGetProducts(inputVal);
     } else {
-      console.log("NO input val");
       setOptions([]);
     }
   }, [inputVal]);
 
   const debouncedGetProducts = useMemo(() => debounce(getProducts, INTERVAL), []);
+
+  const handleChange = (ev, val) => {
+    const productId = options.find((option) => option.name === val)?.id;
+    console.log("PRODUCT ID", productId);
+    if (productId) {
+      navigate(`/products/${productId}`);
+    }
+  };
 
   const handleInputChange = (ev, val) => {
     setInputVal(val);
@@ -54,13 +61,12 @@ function SearchBar() {
         autoComplete
         options={options?.map((option) => option.name)}
         filterOptions={(x) => x}
+        onChange={handleChange}
         onInputChange={handleInputChange}
         // sx={{ width: "300px" }}
         sx={{
           width: "250px",
-          // border: "1px solid blue",
           "& .MuiOutlinedInput-root": {
-            // border: "1px solid yellow",
             borderRadius: "0",
             padding: "5px",
           },

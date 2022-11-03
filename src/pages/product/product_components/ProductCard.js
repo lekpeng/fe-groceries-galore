@@ -21,7 +21,7 @@ function ProductCard({ product }) {
       <Typography sx={{ fontSize: "16px", fontWeight: "bold", color: "red", paddingTop: "8px", paddingBottom: "8px" }}>
         Out of Stock
       </Typography>
-    ) : auth?.user ? (
+    ) : auth?.user?.userType === "Customer" ? (
       <ProductCounter product={product} customerProductQuantity={getProductQuantity(cart, product.id)}></ProductCounter>
     ) : (
       <Box sx={{ height: "40px" }}></Box>
