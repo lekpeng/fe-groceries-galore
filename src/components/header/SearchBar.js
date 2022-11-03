@@ -14,7 +14,9 @@ const INTERVAL = 500;
 function SearchBar() {
   const [options, setOptions] = useState([]);
   const [inputVal, setInputVal] = useState("");
+  const [autoCompleteKey, setAutoCompleteKey] = useState(true);
   const previousController = useRef();
+  const autocompleteRef = useRef();
   const navigate = useNavigate();
   const getProducts = async (query) => {
     if (previousController.current) {
@@ -47,6 +49,8 @@ function SearchBar() {
     console.log("PRODUCT ID", productId);
     if (productId) {
       navigate(`/products/${productId}`);
+      // workaround for making the input clear after clicking the search result
+      setAutoCompleteKey((prev) => !prev);
     }
   };
 
@@ -59,13 +63,13 @@ function SearchBar() {
       <SearchIcon sx={{ color: "#063970", width: "2em" }} />
       <Autocomplete
         autoComplete
+        key={autoCompleteKey}
         options={options?.map((option) => option.name)}
         filterOptions={(x) => x}
         onChange={handleChange}
         onInputChange={handleInputChange}
-        // sx={{ width: "300px" }}
         sx={{
-          width: "250px",
+          width: "350px",
           "& .MuiOutlinedInput-root": {
             borderRadius: "0",
             padding: "5px",
@@ -75,6 +79,7 @@ function SearchBar() {
           },
         }}
         renderInput={(params) => <TextField {...params} />}
+        ref={autocompleteRef}
       />
     </Box>
   );
