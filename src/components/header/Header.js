@@ -76,10 +76,21 @@ const Header = () => {
         </Grid>
         <Grid item xs={4} sx={{ height: "100%" }}>
           <Box sx={{ display: "flex", height: "100%", alignItems: "center", justifyContent: "flex-end" }}>
-            <Button component={Link} to="/merchants" sx={{ color: "white", display: "block", textTransform: "none" }}>
-              <Typography>Our</Typography>
-              <Typography>Merchants</Typography>
-            </Button>
+            {auth?.user?.userType === "Merchant" ? (
+              <Button
+                component={Link}
+                to={`/merchants/${profile?.id}`}
+                sx={{ color: "white", display: "block", textTransform: "none" }}>
+                <Typography>My</Typography>
+                <Typography>Store</Typography>
+              </Button>
+            ) : (
+              <Button component={Link} to="/merchants" sx={{ color: "white", display: "block", textTransform: "none" }}>
+                <Typography>Our</Typography>
+                <Typography>Merchants</Typography>
+              </Button>
+            )}
+
             {isLoggedIn && auth?.user?.userType === "Customer" ? (
               <>
                 <Button component={Link} to="/orders" sx={{ color: "white", display: "block", textTransform: "none" }}>

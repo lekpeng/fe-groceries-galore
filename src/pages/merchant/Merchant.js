@@ -1,9 +1,10 @@
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import productApis from "../../apis/product";
+import useAuth from "../../hooks/useAuth";
 import ProductCard from "../product/product_components/ProductCard";
 import ProductSkeleton from "../product/product_components/ProductSkeleton";
 
@@ -11,6 +12,7 @@ function Merchant() {
   const params = useParams();
   const [products, setProducts] = useState([]);
   const [merchant, setMerchant] = useState({});
+  const { auth } = useAuth();
   useEffect(() => {
     const indexProductsByMerchant = async () => {
       try {
@@ -28,7 +30,15 @@ function Merchant() {
 
   return (
     <>
-      <h1>Groceries from {merchant?.name}</h1>
+      <Grid container spacing={2}>
+        <Grid item xs={2}></Grid>
+        <Grid item xs={8}>
+          <h1>Groceries from {merchant?.name}</h1>
+        </Grid>
+        <Grid item xs={2}>
+          {merchant?.email === auth?.user?.email ? <Button>Add Product</Button> : <></>}
+        </Grid>
+      </Grid>
       <Grid container spacing={4}>
         {products.length ? (
           <>
