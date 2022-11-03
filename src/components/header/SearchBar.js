@@ -1,4 +1,5 @@
 import { styled, alpha } from "@mui/material/styles";
+import { Autocomplete, Input } from "@mui/material";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -47,7 +48,7 @@ function Searchbar() {
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
-      <StyledInputBase placeholder="Search…" inputProps={{ "aria-label": "search" }} />
+      <StyledInputBase placeholder="Search…" />
     </Search>
   );
 }

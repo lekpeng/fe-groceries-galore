@@ -1,7 +1,11 @@
 import axios from "./axios";
 
 const productApis = {
-  indexProducts: async () => {
+  indexProducts: async (query = "") => {
+    if (query) {
+      const response = await axios.get(`/products/?query=${query}`);
+      return response;
+    }
     const response = await axios.get("/products");
     return response;
   },
