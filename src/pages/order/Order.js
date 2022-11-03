@@ -13,6 +13,7 @@ function Order() {
     const showOrder = async () => {
       try {
         const response = await axiosPrivate.get(`/orders/${orderId}`);
+        console.log("SHOW ORDER", response);
         setOrder(response.data.order);
       } catch (err) {
         toast.error(err.response.data.error);

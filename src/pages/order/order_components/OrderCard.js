@@ -1,12 +1,20 @@
-import { Box, Card, CardHeader } from "@mui/material";
+import { Box, Card, CardHeader, Typography } from "@mui/material";
+import useAuth from "../../../hooks/useAuth";
+import { capitaliseFirstLetter } from "../../../utils/capitalise_first_letter";
 import OrderDetail from "./OrderDetail";
 
 function OrderCard({ order }) {
+  const { auth } = useAuth();
   return (
     <Box>
-      <h3>
-        Order #{order?.id}: {order?.Customer?.name}
-      </h3>
+      <Typography>
+        {auth?.user.userType === "Customer"
+          ? `Order #${order?.id}: ${order?.Merchant?.name}`
+          : `Order #${order?.id}: ${order?.Customer?.name}`}
+      </Typography>
+
+      <Typography>Status: {order?.status && capitaliseFirstLetter(order?.status)}</Typography>
+
       {order?.OrderDetails.map((orderDetail) => (
         <OrderDetail key={orderDetail.id} orderDetail={orderDetail} />
       ))}

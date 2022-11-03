@@ -1,17 +1,16 @@
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import currency from "currency.js";
 
-function OrderDetail({ orderDetail }) {
+function OrderBriefDetail({ orderDetail }) {
   return (
     <>
-      <Card sx={{ maxWidth: "300px", margin: "auto", border: 1, borderColor: "#c1bfbf96" }}>
+      <Card sx={{ border: 1, borderColor: "#c1bfbf96" }}>
         <CardHeader
-          sx={{ pt: 0, pr: 2, pl: 2, pb: 2 }}
+          sx={{ pt: 0, pr: 2, pl: 2, pb: 0 }}
           titleTypographyProps={{
             fontWeight: "bold",
             fontSize: 14,
@@ -21,7 +20,7 @@ function OrderDetail({ orderDetail }) {
           }}
           title={orderDetail?.Product?.name}
         />
-        <CardMedia component="img" height="194" sx={{ objectFit: "contain" }} image={orderDetail?.Product?.imageUrl} />
+
         <CardContent>
           <Typography variant="body2" color="text.secondary">
             Price: {currency(orderDetail?.productPrice).format()}
@@ -37,4 +36,4 @@ function OrderDetail({ orderDetail }) {
   );
 }
 
-export default OrderDetail;
+export default OrderBriefDetail;

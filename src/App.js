@@ -17,6 +17,7 @@ import Payment from "./pages/order/Payment";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Order from "./pages/order/Order";
+import GoogleMaps from "./pages/GoogleMaps";
 
 const promise = loadStripe(
   "pk_test_51LyWiyHrSLP2bvAc3Zz5TtGUCLz2V5XEbpVA6R8ENz4SYm5vulUqAXQ8733IFCAWaE4rJ7QinE7YzrglwFMVWeaa0053b2ovyM"
@@ -30,6 +31,8 @@ function App() {
         <Route path="/" element={<Layout />}>
           {/* public routes */}
           <Route path="/" element={<Products />} />
+          <Route path="/google" element={<GoogleMaps />} />
+
           <Route path="register" element={<Register />} />
           <Route path="confirm/:emailToken" element={<Confirmation />} />
           <Route path="login" element={<Login />} />
