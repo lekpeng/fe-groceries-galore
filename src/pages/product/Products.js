@@ -18,10 +18,10 @@ function Products() {
     };
     indexProducts();
   }, []);
-  const arrOf10 = new Array(12).fill();
+  const arrOf12 = new Array(12).fill();
   return (
     <>
-      <h1>All Products</h1>
+      <h1>All Groceries</h1>
       <Grid container spacing={4}>
         {products.length ? (
           <>
@@ -33,7 +33,7 @@ function Products() {
           </>
         ) : (
           <>
-            {arrOf10.map((val, idx) => (
+            {arrOf12.map((val, idx) => (
               <Grid key={idx} item xs={4}>
                 <ProductSkeleton />
               </Grid>

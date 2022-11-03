@@ -17,7 +17,7 @@ function Product() {
       }
     };
     showProduct();
-  }, [params]);
+  }, [params.productId]);
 
   return (
     <>
