@@ -40,7 +40,6 @@ function Product() {
     <Box sx={{ width: "345px", margin: "auto" }}>
       {auth?.user?.userType === "Merchant" && auth?.user?.email === product?.Merchant?.email ? (
         <Box sx={{ mb: 3 }}>
-          <Button variant="outlined">Edit</Button>
           <Button sx={{ ml: 1 }} onClick={handleDelete} color="error" variant="outlined">
             Delete
           </Button>

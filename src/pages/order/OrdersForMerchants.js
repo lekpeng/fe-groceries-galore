@@ -7,7 +7,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { capitaliseFirstLetter } from "../../utils/capitalise_first_letter";
 import { isoToYYYYMMDD } from "../../utils/date_time";
 
-function OrdersForMerchant() {
+function OrdersForMerchants() {
   const [rows, setRows] = useState([]);
   const axiosPrivate = useAxiosPrivate();
 
@@ -99,4 +99,4 @@ function OrdersForMerchant() {
   );
 }
 
-export default OrdersForMerchant;
+export default OrdersForMerchants;

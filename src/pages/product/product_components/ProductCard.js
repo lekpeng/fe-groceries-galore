@@ -17,8 +17,6 @@ import "./ProductCard.css";
 function ProductCard({ product }) {
   const { auth, setAuth } = useAuth();
   const [{ cart }, dispatch] = useStateValue();
-  console.log("auth", auth);
-  console.log("product", product);
 
   const displayCardAction =
     product.quantity === 0 ? (

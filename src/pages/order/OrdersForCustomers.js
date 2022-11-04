@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import OrderBriefCard from "./order_components/OrderBriefCard";
 
-function OrdersForCustomer() {
+function OrdersForCustomers() {
   const [orders, setOrders] = useState([]);
   const axiosPrivate = useAxiosPrivate();
   useEffect(() => {
@@ -32,4 +32,4 @@ function OrdersForCustomer() {
   );
 }
 
-export default OrdersForCustomer;
+export default OrdersForCustomers;

@@ -140,7 +140,9 @@ function NewProduct() {
             <InputLabel>Category</InputLabel>
             <Select sx={{ textAlign: "left" }} name="category" value={selectedCategory} label="Status" onChange={handleChange}>
               {categories?.map((category) => (
-                <MenuItem value={category.name}>{category.name}</MenuItem>
+                <MenuItem key={category.id} value={category.name}>
+                  {category.name}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
