@@ -39,6 +39,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="unauthorised" element={<Unauthorised />} />
           <Route path="products" element={<Products />} />
+          <Route path="products/category/:productCategoryName" element={<Products />} />
           <Route path="products/:productId" element={<Product />} />
           <Route path="merchants" element={<Merchants />} />
           <Route path="merchants/:merchantId" element={<MerchantStore />} />

@@ -33,7 +33,12 @@ function ProductCard({ product }) {
 
   return (
     <Card sx={{ border: 1, borderColor: "#c1bfbf96" }}>
-      <Typography sx={{ fontSize: 8, textAlign: "right", p: 2 }}>{product.ProductCategory?.name}</Typography>
+      <Typography
+        component={Link}
+        to={`/products/category/${product.ProductCategory?.name}`}
+        sx={{ fontSize: 8, textAlign: "right", p: 2 }}>
+        {product.ProductCategory?.name}
+      </Typography>
       <CardHeader
         sx={{ pt: 0, pr: 2, pl: 2, pb: 2 }}
         titleTypographyProps={{

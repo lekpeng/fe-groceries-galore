@@ -14,6 +14,10 @@ const productApis = {
     const response = await axios.get(`/products/store/${merchantId}`);
     return response;
   },
+  indexProductsByCategory: async (productCategoryName) => {
+    const response = await axios.get(`/products/category/${productCategoryName}`);
+    return response;
+  },
   showProduct: async (productId) => {
     const response = await axios.get(`/products/${productId}`);
     return response;
