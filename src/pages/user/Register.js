@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import EyeAdornment from "./user_components/EyeAdornment";
 import ToggleUserType from "./user_components/ToggleUserType";
 import userApis from "../../apis/user";
-import { Container, FormControl, FormHelperText, TextField, Button } from "@mui/material";
+import { FormControl, FormHelperText, TextField, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
 function Register() {

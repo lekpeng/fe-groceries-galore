@@ -19,6 +19,7 @@ import Order from "./pages/order/Order";
 import Merchant from "./pages/merchant/Merchant";
 import Orders from "./pages/order/Orders";
 import Test from "./pages/Test";
+import NewProduct from "./pages/product/NewProduct";
 
 const promise = loadStripe(
   "pk_test_51LyWiyHrSLP2bvAc3Zz5TtGUCLz2V5XEbpVA6R8ENz4SYm5vulUqAXQ8733IFCAWaE4rJ7QinE7YzrglwFMVWeaa0053b2ovyM"
@@ -33,14 +34,12 @@ function App() {
           {/* public routes */}
           <Route path="/" element={<Products />} />
           <Route path="/test" element={<Test />} />
-
           <Route path="register" element={<Register />} />
           <Route path="confirm/:emailToken" element={<Confirmation />} />
           <Route path="login" element={<Login />} />
           <Route path="unauthorised" element={<Unauthorised />} />
           <Route path="products" element={<Products />} />
           <Route path="products/:productId" element={<Product />} />
-
           <Route path="merchants" element={<Merchants />} />
           <Route path="merchants/:merchantId" element={<Merchant />} />
 
@@ -64,7 +63,10 @@ function App() {
           </Route>
 
           {/* protected routes: merchant only */}
-          <Route element={<RequireAuth allowedUserTypes={["Merchant"]} />}></Route>
+          <Route element={<RequireAuth allowedUserTypes={["Merchant"]} />}>
+            <Route path="products/:productId" element={<Product />} />
+            <Route path="products/new" element={<NewProduct />} />
+          </Route>
 
           {/* catch-all */}
 
