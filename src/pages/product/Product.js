@@ -4,9 +4,12 @@ import productApis from "../../apis/product";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { Box } from "@mui/system";
+import { Button } from "@mui/material";
+import useAuth from "../../hooks/useAuth";
 function Product() {
   const [product, setProduct] = useState({});
   const params = useParams();
+  const { auth } = useAuth();
   useEffect(() => {
     const showProduct = async () => {
       try {
@@ -20,11 +23,19 @@ function Product() {
   }, [params.productId]);
 
   return (
-    <>
-      <Box sx={{ width: "345px", margin: "auto" }}>
-        <ProductCard key={product.id} product={product} />
-      </Box>
-    </>
+    <Box sx={{ width: "345px", margin: "auto" }}>
+      {auth?.user?.userType === "Merchant" && auth?.user?.email === product?.Merchant?.email ? (
+        <Box sx={{ mb: 3 }}>
+          <Button variant="outlined">Edit</Button>{" "}
+          <Button color="error" variant="outlined">
+            Delete
+          </Button>
+        </Box>
+      ) : (
+        <></>
+      )}
+      <ProductCard key={product.id} product={product} />
+    </Box>
   );
 }
 

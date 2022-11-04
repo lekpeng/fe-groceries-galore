@@ -11,10 +11,14 @@ import ProductCounter from "../../../components/product_counter.js/ProductCounte
 import useAuth from "../../../hooks/useAuth";
 import currency from "currency.js";
 import { Box } from "@mui/material";
+import { Link } from "react-router-dom";
+import "./ProductCard.css";
 
 function ProductCard({ product }) {
   const { auth, setAuth } = useAuth();
   const [{ cart }, dispatch] = useStateValue();
+  console.log("auth", auth);
+  console.log("product", product);
 
   const displayCardAction =
     product.quantity === 0 ? (
@@ -23,6 +27,8 @@ function ProductCard({ product }) {
       </Typography>
     ) : auth?.user?.userType === "Customer" ? (
       <ProductCounter product={product} customerProductQuantity={getProductQuantity(cart, product.id)}></ProductCounter>
+    ) : auth?.user?.userType === "Merchant" && auth?.user?.email === product?.Merchant?.email ? (
+      <Typography sx={{ height: "40px", fontSize: "15px" }}>{product.quantity} left</Typography>
     ) : (
       <Box sx={{ height: "40px" }}></Box>
     );
@@ -36,18 +42,23 @@ function ProductCard({ product }) {
           fontWeight: "bold",
           fontSize: 14,
           textAlign: "left",
+          textDecoration: "none",
         }}
         subheaderTypographyProps={{
           fontSize: 12,
           textAlign: "left",
         }}
         avatar={<ColoredAvatar name={product.Merchant?.name} size={"40px"} fontSize={"12px"} />}
-        title={product?.name}
+        title={
+          <Link style={{ textDecoration: "none" }} className="productCard__link" to={`/products/${product?.id}`}>
+            {product?.name}
+          </Link>
+        }
         subheader={product?.description}
       />
-      <CardMedia component="img" height="194" sx={{ objectFit: "contain" }} image={product.imageUrl} />
-      <CardContent sx={{ padding: "0" }}>
-        <Typography variant="h6" color="text.primary" sx={{ fontSize: "15px" }}>
+      <CardMedia component="img" height="180" sx={{ objectFit: "contain" }} image={product.imageUrl} />
+      <CardContent sx={{ p: 0, mt: 1 }}>
+        <Typography color="text.primary" sx={{ fontSize: "15px" }}>
           {currency(product.price).format()}
         </Typography>
       </CardContent>

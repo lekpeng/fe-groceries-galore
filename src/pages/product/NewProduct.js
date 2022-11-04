@@ -2,11 +2,13 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typo
 import { useEffect } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import productCategoryApis from "../../apis/product_category";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import PreviewProduct from "./PreviewProduct";
 
 function NewProduct() {
-  //   const [selectedCategory, setSelectedCategory] = useState("");
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [previewImageUrl, setPreviewImageUrl] = useState("");
@@ -18,6 +20,8 @@ function NewProduct() {
     quantity: 0,
     category: "",
   });
+
+  const axiosPrivate = useAxiosPrivate();
 
   const handleUploadImage = (ev) => {
     setImageFile(ev.target.files[0]);
@@ -42,9 +46,18 @@ function NewProduct() {
     e.preventDefault();
 
     try {
-      console.log("form data", formData);
+      let compiledData = new FormData();
+      compiledData.append("imageFile", imageFile);
+      compiledData.append("formData", JSON.stringify(formData));
+      const response = await axiosPrivate.post("/products/new", compiledData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      navigate(`/products/${response.data.product.id}`);
       toast.success("Product has been added! 😄");
+
+      //  TODO: navigate to product
     } catch (err) {
+      console.log(err.response.data.error);
       toast.error(err.response.data.error);
     }
   };
@@ -62,16 +75,13 @@ function NewProduct() {
   return (
     <>
       <h1 style={{ marginTop: 0 }}>Add Product</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         <FormControl sx={{ mt: 5, width: "400px" }}>
           <TextField required name="name" label="Product Name" onChange={handleChange} />
           <Box display="flex" flexDirection="row" alignItems="center" gap="2em">
             <Box display="flex" flexDirection="column">
               {previewImageUrl ? (
-                <Button
-                  variant="outlined"
-                  onClick={handleRemoveImage}
-                  sx={{ mt: 1, color: "red", borderColor: "red", "&:hover": { borderColor: "red" } }}>
+                <Button variant="outlined" color="error" onClick={handleRemoveImage} sx={{ mt: 1 }}>
                   Remove
                 </Button>
               ) : (

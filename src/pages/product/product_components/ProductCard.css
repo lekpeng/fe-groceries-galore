@@ -1,0 +1,12 @@
+.productCard__link {
+  color: black;
+}
+.productCard__link:active {
+  color: black;
+}
+.productCard__link:visited {
+  color: black;
+}
+.productCard__link:hover {
+  color: blue;
+}
