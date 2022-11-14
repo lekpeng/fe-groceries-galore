@@ -21,9 +21,9 @@ function Products() {
     const getProductCategories = async () => {
       try {
         const response = await productCategoryApis.indexProductCategories();
-        setCategories(response.data.productCategories);
+        setCategories(response?.data?.productCategories);
       } catch (err) {
-        toast.err(err.response.data.error);
+        toast.err(err?.response?.data?.error);
       }
     };
     getProductCategories();
@@ -34,14 +34,14 @@ function Products() {
       try {
         if (params.productCategoryName) {
           const response = await productApis.indexProductsByCategory(params.productCategoryName);
-          setProducts(response.data.products);
+          setProducts(response?.data?.products);
         } else {
           const response = await productApis.indexProducts();
-          setProducts(response.data.products);
+          setProducts(response?.data?.products);
         }
         setIsLoading(false);
       } catch (err) {
-        toast.error(err.response.data.error);
+        toast.error(err?.response?.data?.error);
       }
     };
 

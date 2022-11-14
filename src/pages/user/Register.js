@@ -28,7 +28,7 @@ function Register() {
       await userApis.auth(formData, userType, "register");
       toast.success("Registration Successful!\nCheck your mailbox for a verification email from us 😄");
     } catch (err) {
-      toast.error(err.response.data.error);
+      toast.error(err?.response?.data?.error);
     }
   };
 

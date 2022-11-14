@@ -11,18 +11,22 @@ function MerchantStore() {
   const [products, setProducts] = useState([]);
   const [merchant, setMerchant] = useState({});
   const { auth, setAuth } = useAuth();
+  console.log("PARAMS", params);
   useEffect(() => {
+    console.log("INSIDE USE EFFECT!!!!");
     const indexProductsByMerchant = async () => {
       try {
         const response = await productApis.indexProductsByMerchant(params.merchantId);
-        setProducts(response.data.products);
-        setMerchant(response.data.merchant);
+        console.log("RESPONSE", response);
+        setProducts(response?.data?.products);
+        setMerchant(response?.data?.merchant);
       } catch (err) {
-        toast.error(err.response.data.error);
+        toast.error(err?.response?.data?.error);
       }
     };
     indexProductsByMerchant();
   }, [params.merchantId]);
+  // products/new => products/1
 
   return (
     <>

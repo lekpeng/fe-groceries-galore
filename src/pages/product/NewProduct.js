@@ -52,22 +52,22 @@ function NewProduct() {
       const response = await axiosPrivate.post("/products/new", compiledData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      navigate(`/products/${response.data.product.id}`);
+      navigate(`/products/${response?.data?.product.id}`);
       toast.success("Product has been added! 😄");
 
       //  TODO: navigate to product
     } catch (err) {
-      console.log(err.response.data.error);
-      toast.error(err.response.data.error);
+      console.log(err?.response?.data?.error);
+      toast.error(err?.response?.data?.error);
     }
   };
   useEffect(() => {
     const getProductCategories = async () => {
       try {
         const response = await productCategoryApis.indexProductCategories();
-        setCategories(response.data.productCategories);
+        setCategories(response?.data?.productCategories);
       } catch (err) {
-        toast.err(err.response.data.error);
+        toast.err(err?.response?.data?.error);
       }
     };
     getProductCategories();

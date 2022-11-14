@@ -51,11 +51,11 @@ function Login() {
 
     try {
       const response = await userApis.auth(formData, userType, "login");
-      const accessToken = response.data.accessToken;
+      const accessToken = response?.data?.accessToken;
 
       setAuth({ user: { email: formData.email, userType, accessToken } });
     } catch (err) {
-      toast.error(err.response.data.error);
+      toast.error(err?.response?.data?.error);
     }
   };
 

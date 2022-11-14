@@ -30,7 +30,7 @@ function SearchBar() {
       const response = await productApis.indexProducts(query);
       setOptions(response.data?.products);
     } catch (err) {
-      return toast.error(err.response.data.error);
+      return toast.error(err?.response?.data?.error);
     }
   };
 

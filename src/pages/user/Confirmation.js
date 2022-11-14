@@ -14,7 +14,7 @@ function Confirmation() {
       try {
         await userApis.confirm(params.emailToken);
       } catch (err) {
-        toast.error(err.response.data.error);
+        toast.error(err?.response?.data?.error);
       }
 
       setTimeout(() => {

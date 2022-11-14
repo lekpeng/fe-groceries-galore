@@ -15,7 +15,7 @@ function OrdersForMerchants() {
     const indexOrders = async () => {
       try {
         const response = await axiosPrivate.get("/orders");
-        console.log(response.data.orders);
+        console.log(response?.data?.orders);
         const mappedRows = response?.data?.orders?.map((order) => {
           const { id, status, updatedAt, paidAt } = order;
           const { name, email } = order?.Customer;
@@ -31,7 +31,7 @@ function OrdersForMerchants() {
         });
         setRows(mappedRows);
       } catch (err) {
-        toast.error(err.response.data.error);
+        toast.error(err?.response?.data?.error);
       }
     };
     indexOrders();

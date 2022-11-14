@@ -13,9 +13,9 @@ function Order() {
     const showOrder = async () => {
       try {
         const response = await axiosPrivate.get(`/orders/${orderId}`);
-        setOrder(response.data.order);
+        setOrder(response?.data?.order);
       } catch (err) {
-        toast.error(err.response.data.error);
+        toast.error(err?.response?.data?.error);
       }
     };
     showOrder();

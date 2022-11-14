@@ -16,9 +16,9 @@ function Product() {
     const showProduct = async () => {
       try {
         const response = await productApis.showProduct(params.productId);
-        setProduct(response.data.product);
+        setProduct(response?.data?.product);
       } catch (err) {
-        toast.error(err.response.data.error);
+        toast.error(err?.response?.data?.error);
       }
     };
     showProduct();
@@ -32,7 +32,7 @@ function Product() {
       toast.success(`Deleted ${product.name} successfully`);
       navigate(`/merchants/${product.MerchantId}`);
     } catch (err) {
-      toast.error(err.response.data.error);
+      toast.error(err?.response?.data?.error);
     }
   };
 

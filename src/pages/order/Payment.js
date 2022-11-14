@@ -50,7 +50,7 @@ function Payment() {
         });
       }
     } catch (err) {
-      toast.error(err.response.data.error);
+      toast.error(err?.response?.data?.error);
     }
   };
   useEffect(() => {
@@ -58,9 +58,9 @@ function Payment() {
       if (auth.user) {
         try {
           const response = await userApis.showProfile(auth.user);
-          setProfile(response.data.userProfile);
+          setProfile(response?.data?.userProfile);
         } catch (err) {
-          toast.error(err.response.data.error);
+          toast.error(err?.response?.data?.error);
         }
       }
     };
@@ -75,10 +75,10 @@ function Payment() {
           total: currency(getCartAmountPayable(cart)).multiply(100).value,
           orderIds: cart.map((order) => order.id),
         });
-        setClientSecret(response.data.clientSecret);
-        setPastPaymentMethods(response.data.paymentMethods);
+        setClientSecret(response?.data?.clientSecret);
+        setPastPaymentMethods(response?.data?.paymentMethods);
       } catch (err) {
-        toast.error(err.response.data.error);
+        toast.error(err?.response?.data?.error);
       }
     };
     const configurePayment = async () => {
@@ -86,7 +86,7 @@ function Payment() {
         await checkCart();
         await getClientSecret();
       } catch (err) {
-        toast.error(err.response.data.error);
+        toast.error(err?.response?.data?.error);
       }
     };
     if (cart.length) {

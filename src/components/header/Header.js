@@ -26,9 +26,9 @@ const Header = () => {
       if (auth.user) {
         try {
           const response = await userApis.showProfile(auth.user);
-          setProfile(response.data.userProfile);
+          setProfile(response?.data?.userProfile);
         } catch (err) {
-          toast.error(err.response.data.error);
+          toast.error(err?.response?.data?.error);
         }
       }
     };
@@ -42,7 +42,7 @@ const Header = () => {
       setAuth({});
       navigate("/login");
     } catch (err) {
-      toast.error(err.response.data.error);
+      toast.error(err?.response?.data?.error);
     }
   };
 

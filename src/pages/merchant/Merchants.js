@@ -10,9 +10,9 @@ function Merchants() {
     const indexMerchants = async () => {
       try {
         const response = await userApis.indexProfiles("Merchant");
-        setMerchants(response.data.Merchant);
+        setMerchants(response?.data?.Merchant);
       } catch (err) {
-        toast.error(err.response.data.error);
+        toast.error(err?.response?.data?.error);
       }
     };
     indexMerchants();
