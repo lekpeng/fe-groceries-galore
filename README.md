@@ -4,7 +4,7 @@ Groceries Galore is a site where for merchants to sell, and customers to purchas
 
 ## Link
 
-Sign up as either a merchant or customer here: https://groceries-galore-frontend.netlify.app/
+Sign up as either a merchant or customer here: https://groceries-galore.netlify.app/
 
 ## Repositories
 - Back End: https://github.com/lekpeng/be-groceries-galore
